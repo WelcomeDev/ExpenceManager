@@ -16,17 +16,20 @@
 
 		public Good(string name, decimal price, GoodTypes type) : this(name, price)
 		{
-
+			Type = new GoodType(type);
 		}
 
-		public Good(string name, decimal price, string type): this(name, price)
+		public Good(string name, decimal price, string type) : this(name, price)
 		{
-
+			Type = new GoodType(type);
 		}
 	}
 
 	public partial class Good
 	{
-
+		public override string ToString()
+		{
+			return $"{Name} - {Price:C2}";
+		}
 	}
 }

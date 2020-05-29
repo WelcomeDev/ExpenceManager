@@ -5,8 +5,79 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExpenceManager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Icon="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\PieDiagramIcon.png"
+        Title="Expence manager"
+        Height="450" Width="800">
+    <Grid x:Name="MainGrid"
+          Focusable="True"
+          Background="#D84DFF"
+          MouseDown="MainGrid_MouseDown">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
+        <Grid Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Button x:Name="AddButton"
+                    Grid.Row="0"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource ImageButton}"
+                    Click="AddButton_Click">
+                <Image Source="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\AddExpenceIcon.png"/>
+            </Button>
+
+            <StackPanel Grid.Row="1"
+                        VerticalAlignment="Top"
+                        Margin="6,20,6,4"
+                        Orientation="Horizontal">
+
+                <Image x:Name="UploadIcon"
+                       Source="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\UploadIcon.png" 
+                       ToolTip="Load from" 
+                       MaxHeight="30" MaxWidth="30"/>
+
+                <ComboBox x:Name="LoadFromComboBox"
+                          Style="{StaticResource ComboBox}"
+                          SelectionChanged="LoadFromComboBox_SelectionChanged">
+                    <ComboBoxItem Tag="TXT">From txt</ComboBoxItem>
+                    <ComboBoxItem Tag="EXCEL">From excel</ComboBoxItem>
+                </ComboBox>
+
+            </StackPanel>
+
+            <StackPanel Grid.Row="1"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Margin="6,10,6,4">
+
+                <Image Source="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\ExportIcon.png" 
+                       ToolTip="Export to"
+                       MaxHeight="{Binding ElementName=UploadIcon,Path=MaxHeight}"
+                       MaxWidth="{Binding ElementName=UploadIcon, Path=MaxWidth}"/>
+
+                <ComboBox Name="ExportComboBox"
+                          Style="{StaticResource ComboBox}"
+                          SelectionChanged="ExportComboBox_SelectionChanged">
+                    <ComboBoxItem Tag="EXCEL">To excel</ComboBoxItem>
+                    <ComboBoxItem Tag="PDF">To pdf</ComboBoxItem>
+                </ComboBox>
+
+            </StackPanel>
+
+        </Grid>
+
+        <Calendar x:Name="ManagerCalendar"
+                  Margin="20,20,0,0"
+                  Background="#E999FF"
+                  SelectionMode="MultipleRange"
+                  SelectedDatesChanged="ManagerCalendar_SelectedDatesChanged"
+                  Grid.Column="1"/>
     </Grid>
 </Window>

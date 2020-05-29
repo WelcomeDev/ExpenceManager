@@ -12,13 +12,24 @@ namespace Model
 	{
 		public DateTime Date { get; }
 
-		public decimal Sum => Goods.Sum(x => x.Price);
+		public decimal Sum => Goods.Sum(x => x.Key.Price);
 
-		private List<GoodType> Types => Goods.Select(x => x.Type).Distinct().ToList();
+		private List<GoodType> Types => Goods.Select(x => x.Key.Type).Distinct().ToList();
 
 		public int ItemsAmount => Goods.Count;
 
-		public List<Good> Goods { get; }
+		public Dictionary<Good, int> Goods { get; }
+
+		public Purchase()
+		{
+			Date = DateTime.Now;
+		}
+
+		public Purchase(DateTime date, Dictionary<Good, int> goods)
+		{
+			Date = date;
+			Goods = goods;
+		}
 	}
 
 	public partial class Purchase : IEnumerable, IEnumerable<Good>, IEnumerable<string>
