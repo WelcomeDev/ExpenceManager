@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using DiagramModel;
 
 namespace Model
 {
-	public partial class GoodType
+	public partial class GoodType: IEnumType
 	{
-		public string Name { get; }
+		public string Item { get; }
 
 		public GoodType(GoodTypes type)
 		{
-			Name = type.ToString();
+			Item = type.ToString();
 		}
 
 		public GoodType(string newType)
@@ -19,7 +20,7 @@ namespace Model
 				newType = string.Concat(newType[0].ToString().ToUpper(), newType.Substring(1));
 			}
 
-			Name = newType;
+			Item = newType;
 		}
 	}
 
@@ -37,21 +38,21 @@ namespace Model
 			};
 		}
 
-		public override int GetHashCode() => HashCode.Combine(Name);
+		public override int GetHashCode() => HashCode.Combine(Item);
 
-		public override string ToString() => Name;
+		public override string ToString() => Item;
 
 		public bool Equals([AllowNull] GoodType other)
 		{
 			if (other is null)
 				return false;
 
-			return Name.Equals(other.Name);
+			return Item.Equals(other.Item);
 		}
 
 		public bool Equals(GoodTypes other)
 		{
-			return Name.Equals(other.ToString());
+			return Item.Equals(other.ToString());
 		}
 
 		public int CompareTo(GoodType other)
@@ -59,7 +60,7 @@ namespace Model
 			if (other is null)
 				throw new ArgumentNullException($"Comparable value can't be null.");
 
-			return Name.CompareTo(other.Name);
+			return Item.CompareTo(other.Item);
 		}
 	}
 }

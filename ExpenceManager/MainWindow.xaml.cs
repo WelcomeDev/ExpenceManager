@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Model.DataBase;
 
 namespace ExpenceManager
 {
@@ -24,19 +25,31 @@ namespace ExpenceManager
 		{
 			InitializeComponent();
 			Initialize();
-			
+
 		}
 
 		private void Initialize()
 		{
-			
+			var lastDate = PurchaseDB.GetLastPurchaseDate();
+			ManagerCalendar.DisplayDateEnd = DateTime.Today;
 
-			InitializeDiagram();
+			if (lastDate != null)
+			{
+				InitializeDiagram();
+				//Init selected date etc
+				Task.Run(() => CrossOutUnavailableDates());
+			}
+			
+		}
+
+		private void CrossOutUnavailableDates()
+		{
+			var availableDates = PurchaseDB.GetAvailableDates();
 		}
 
 		private void InitializeDiagram()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)

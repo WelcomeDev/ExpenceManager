@@ -1,20 +1,18 @@
-﻿using System;
+﻿using DiagramModel;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Model
 {
-	//TODO: out only total prise for each GoodType in GeneralInfo
-	//SOLVE: color generation
 
-	public partial class Purchase
+	public partial class Purchase : EnumerableType<GoodType>
 	{
 		public DateTime Date { get; }
 
 		public decimal Sum => Goods.Sum(x => x.Key.Price);
-
-		private List<GoodType> Types => Goods.Select(x => x.Key.Type).Distinct().ToList();
 
 		public int ItemsAmount => Goods.Count;
 
@@ -22,6 +20,7 @@ namespace Model
 
 		public Purchase()
 		{
+			types = new List<GoodType>();
 			Date = DateTime.Now;
 		}
 
@@ -29,15 +28,43 @@ namespace Model
 		{
 			Date = date;
 			Goods = goods;
+			types = Goods.Select(x => x.Key.Type).Distinct().ToList();
+		}
+
+		public class PurchaseItem : IScopeSelectionItem
+		{
+			public string Name { get; }
+			public decimal Price { get; }
+			public int Amount { get; }
+
+			public decimal GetTotal => Price * Amount;
+
+			public PurchaseItem(string name, decimal price, int amount)
+			{
+				Name = name;
+				Price = price;
+				Amount = amount;
+			}
+
+			public override string ToString()
+			{
+				return $"{Amount} x {Name} - {Price:#0.00}";
+			}
 		}
 	}
 
-	public partial class Purchase : IEnumerable, IEnumerable<Good>, IEnumerable<string>
+	public partial class Purchase : IEnumerable<Good>
 	{
-		//TODO: what if
-		///SOLVE: make such thing:
-		///foreach(var item in Purchase.GetTypes())
-		///purchase[GoodType] - returns collection
-		//add indexers by int and by string probablly
+
+		//TODO: must return not good but PurchaseItem
+		public IEnumerator<Good> GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -14,6 +14,8 @@ namespace DiagramControls
 	public partial class PieDiagram : UserControl
 	{
 		//TODO: make templated
+		//TODO: out only total prise for each GoodType in GeneralInfo
+		//SOLVE: color generation
 		public DateTime Initial { get; }
 		public DateTime? Final { get; }
 
