@@ -5,7 +5,73 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-        <Style x:Key="ImageButton" TargetType="Button">
+        <!--TextBlock style for AddGoodWindow-->
+        <Style x:Key="OnAdditionTextBlock" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Width" Value="102"/>
+            <Setter Property="Margin" Value="6,2,6,2"/>
+        </Style>
+
+        <!--TextBox style for AddGoodWindow-->
+        <Style x:Key="OnAdditionTextBox" TargetType="TextBox">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Width" Value="106"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="outerBorder" CornerRadius="5" 
+                                BorderThickness="1"
+                                Background="White"
+                                BorderBrush="Black"
+                                Padding="2">
+
+                            <ScrollViewer Margin="0"
+                        x:Name="PART_ContentHost" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="outerBorder" Property="Border.BorderBrush" Value="#744D80"/>
+                                <Setter TargetName="outerBorder" Property="Border.BorderThickness" Value="2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CircleImageButton" TargetType="Button">
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="MaxHeight" Value="80"/>
+            <Setter Property="MinHeight" Value="80"/>
+            <Setter Property="MaxWidth" Value="80"/>
+            <Setter Property="MinWidth" Value="80"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="outerBorder"
+                                CornerRadius="45"
+                                BorderThickness="1">
+                            <ContentPresenter Margin="2"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="outerBorder" Property="Border.Background" Value="#E999FF"/>
+                                <Setter TargetName="outerBorder" Property="Border.BorderThickness" Value="1"/>
+                                <Setter TargetName="outerBorder" Property="Border.BorderBrush" Value="#6C2680"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!--Square button with Image style-->
+        <Style x:Key="ImageSquareButton" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="MaxHeight" Value="60"/>
             <Setter Property="MinHeight" Value="60"/>
@@ -15,6 +81,38 @@
             <Setter Property="Margin" Value="6,4,6,4"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Rectangle x:Name="innerRect" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                       StrokeThickness="0">
+                                <Rectangle.Fill>
+                                    <Binding Path="Background">
+                                        <Binding.RelativeSource>
+                                            <RelativeSource Mode="FindAncestor" AncestorType="Button"/>
+                                        </Binding.RelativeSource>
+                                    </Binding>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <ContentPresenter Margin="2"/>
+                        </Grid>
+                        
+                        <!--Triggers-->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="innerRect" Property="Rectangle.Fill" Value="#E999FF"/>
+                                <Setter TargetName="innerRect" Property="Rectangle.StrokeThickness" Value="1"/>
+                                <Setter TargetName="innerRect" Property="Rectangle.Stroke" Value="#6C2680"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="innerRect" Property="Rectangle.StrokeThickness" Value="1"/>
+                                <Setter TargetName="innerRect" Property="Rectangle.Stroke" Value="#6C2680"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <!--ComboBox style-->
@@ -26,21 +124,27 @@
                     <ColumnDefinition Width="20"/>
                 </Grid.ColumnDefinitions>
                 <Border x:Name="outerBorder" Grid.ColumnSpan="2" MinWidth="20"
-                        Background="White" BorderBrush="Black" BorderThickness="1"
+                        Background="White" BorderBrush="#AD3DCC" BorderThickness="2"
                         CornerRadius="5"/>
                 <Border x:Name="innerBorder" Grid.Column="0" Margin="2"
                         Background="Transparent" BorderThickness="1"/>
                 <Path x:Name="Arrow" Grid.Column="1" Margin="4"
-                        Fill="Black" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Fill="#744D80" VerticalAlignment="Center" HorizontalAlignment="Center"
                         Data="M0,0 L0,3 L6,9 L12,3 L12,0 L6,6 z"/>
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter TargetName="outerBorder" Property="Border.BorderBrush" Value="Blue"/>
+                    <Setter TargetName="outerBorder" Property="Border.BorderBrush" Value="#6C2680"/>
+                    <Setter TargetName="outerBorder" Property="Border.BorderThickness" Value="2"/>
                 </Trigger>
                 <Trigger Property="IsChecked" Value="True">
-                    <Setter TargetName="Arrow" Property="Path.Fill" Value="#444444"/>
-                    <Setter TargetName="outerBorder" Property="Border.BorderBrush" Value="#888888"/>
+                    <Setter TargetName="Arrow" Property="Path.Fill" Value="#6C2680"/>
+                    <Setter TargetName="Arrow" Property="LayoutTransform">
+                        <Setter.Value>
+                            <RotateTransform Angle="180"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter TargetName="outerBorder" Property="Border.BorderBrush" Value="#6C2680"/>
                 </Trigger>
                 <Trigger Property="BorderBrush" Value="DarkGray">
                     <Setter TargetName="outerBorder" Property="Border.BorderBrush" Value="DarkGray"/>
@@ -53,12 +157,12 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-        
+
         <!--Text box for ComboBox-->
         <ControlTemplate TargetType="TextBox" x:Key="ComboBoxTextBox">
             <Border x:Name="ContentHost" Focusable="False" Background="{TemplateBinding Background}"/>
         </ControlTemplate>
-        
+
         <!--Exactly ComboBox style-->
         <Style TargetType="ComboBox" x:Key="ComboBox">
             <Setter Property="SnapsToDevicePixels" Value="True"/>

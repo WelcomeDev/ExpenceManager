@@ -28,7 +28,7 @@
             <Button x:Name="AddButton"
                     Grid.Row="0"
                     HorizontalAlignment="Left"
-                    Style="{StaticResource ImageButton}"
+                    Style="{StaticResource ImageSquareButton}"
                     Click="AddButton_Click">
                 <Image Source="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\AddExpenceIcon.png"/>
             </Button>

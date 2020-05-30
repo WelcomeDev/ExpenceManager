@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using DiagramModel;
+using Model;
 
 namespace DiagramControls
 {
@@ -22,10 +23,10 @@ namespace DiagramControls
 		private readonly List<PiePiece> piePieces = new List<PiePiece>();
 		private const int FullAngle = 360;
 
-		public Scopes<GoodType, Expence.ExpenceSelection> Scopes { get; private set; }
+		public Scopes<GoodType, PurchaseItem> Scopes { get; private set; }
 		public SolidColorBrush[] UsersBrushes { get; }
 
-		public PieDiagram(Scopes<GoodType, Expence.ExpenceSelection> scopes, SolidColorBrush[] brushes)
+		public PieDiagram(Scopes<GoodType, PurchaseItem> scopes, SolidColorBrush[] brushes)
 		{
 			if (scopes.Count() < brushes.Length)
 				throw new ArgumentException($"Amount of {nameof(brushes)} must be not less then amount of members in enum {scopes.EnumType.Name}");
@@ -48,7 +49,7 @@ namespace DiagramControls
 			ShowGeneralInfo();
 		}
 
-		public void LoadNew(Scopes<GoodType, Expence.ExpenceSelection> scopes)
+		public void LoadNew(Scopes<GoodType, PurchaseItem> scopes)
 		{
 			if (legend.Children.Count == 0)
 				InitializeLegend();
@@ -126,9 +127,9 @@ namespace DiagramControls
 
 		private void InitializeLegend()
 		{
-			for (int i = 0; i < Scopes.EnumStringValues.Count; i++)
+			for (int i = 0; i < Scopes.EnumValues.Count(); i++)
 			{
-				var legendItem = new PieLegendItem(i, UsersBrushes[i], Scopes.EnumStringValues[i]);
+				var legendItem = new PieLegendItem(i, UsersBrushes[i], Scopes.EnumValues.ElementAt(i).Item);
 				legendItem.MouseOn += LegendItem_MouseOn;
 				legendItem.MouseOut += LegendItem_MouseOut;
 				legend.Children.Add(legendItem);

@@ -19,13 +19,13 @@ namespace DiagramModel
 		public bool IsEmpty => TotalSum == 0;
 		public DateTime InitialDate { get; }
 		public DateTime? FinalDate { get; }
-		public IEnumerable<IEnumType> EnumValues { get; }
+		public IEnumerable<EType> EnumValues { get; }
 		public Type EnumType { get; }
 		public decimal TotalSum => scopes.Sum(x => x.Sum);
 
 		public List<string> TotalInfo { get; private set; }
 
-		private readonly List<Scope<IEnumType, DType>> scopes = new List<Scope<IEnumType, DType>>();
+		private readonly List<Scope<EType, DType>> scopes = new List<Scope<EType, DType>>();
 
 		/// <summary>
 		/// Scope for range of dates
@@ -33,7 +33,7 @@ namespace DiagramModel
 		/// <param name="dataProvider">Provides a way to get data according to curtain IEnumType and Dates range</param>
 		/// <param name="initialDate">Start of Date range</param>
 		/// <param name="finalDate">End of Date range</param>
-		public Scopes(Func<IEnumerable<IEnumType>> typesProvider, Func<IEnumType, DateTime, DateTime?, IEnumerable<DType>> dataProvider, DateTime initialDate, DateTime? finalDate)
+		public Scopes(Func<IEnumerable<EType>> typesProvider, Func<EType, DateTime, DateTime?, IEnumerable<DType>> dataProvider, DateTime initialDate, DateTime? finalDate)
 		{
 
 			InitialDate = initialDate;
@@ -44,20 +44,20 @@ namespace DiagramModel
 
 		}
 
-		private void Initialize(Func<IEnumType, DateTime, DateTime?, IEnumerable<DType>> dataProvider)
+		private void Initialize(Func<EType, DateTime, DateTime?, IEnumerable<DType>> dataProvider)
 		{
 			foreach (var value in EnumValues)
 			{
 				var result = dataProvider.Invoke(value, InitialDate, FinalDate);
-				Scope<IEnumType, DType> scope;
+				Scope<EType, DType> scope;
 				if (FinalDate.HasValue)
 				{
-					scope = new Scope<IEnumType, DType>(result, InitialDate, FinalDate.Value);
+					scope = new Scope<EType, DType>(result, InitialDate, FinalDate.Value);
 
 				}
 				else
 				{
-					scope = new Scope<IEnumType, DType>(result, InitialDate);
+					scope = new Scope<EType, DType>(result, InitialDate);
 				}
 
 				scope.EnumMember = value;
@@ -77,43 +77,43 @@ namespace DiagramModel
 		}
 	}
 
-	//public partial class Scopes<EType> : IEnumerable<Scope<EType, DType>>, IEnumerable, IStringOutputData
-	//{
-	//	IEnumerator IEnumerable.GetEnumerator()
-	//	{
-	//		return scopes.GetEnumerator();
-	//	}
+	public partial class Scopes<EType, DType> : IEnumerable<Scope<EType, DType>>, IEnumerable, IStringOutputData
+	{
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return scopes.GetEnumerator();
+		}
 
-	//	public Scope<EType, DType> this[int ind]
-	//	{
-	//		get
-	//		{
-	//			if (ind < 0 || ind >= scopes.Count)
-	//				throw new ArgumentOutOfRangeException("Index was out of range");
+		public Scope<EType, DType> this[int ind]
+		{
+			get
+			{
+				if (ind < 0 || ind >= scopes.Count)
+					throw new ArgumentOutOfRangeException("Index was out of range");
 
-	//			return scopes[ind];
-	//		}
-	//	}
+				return scopes[ind];
+			}
+		}
 
-	//	public IEnumerator<Scope<EType, DType>> GetEnumerator()
-	//	{
-	//		return scopes.GetEnumerator();
-	//	}
+		public IEnumerator<Scope<EType, DType>> GetEnumerator()
+		{
+			return scopes.GetEnumerator();
+		}
 
-	//	/// <summary>
-	//	/// Returns top-3 the most expensive items in each category
-	//	/// </summary>
-	//	/// <param name="OutputHandler">Handler for output</param>
-	//	public void OutputData(Action<string, string> OutputHandler)
-	//	{
-	//		var categories = scopes.Select(x => x.GetTopExpensive());
-	//		foreach (var category in categories)
-	//		{
-	//			foreach (var item in category)
-	//			{
-	//				OutputHandler?.Invoke(item.ToString(), item.GetTotal.ToString("C2"));
-	//			}
-	//		}
-	//	}
-	//}
+		/// <summary>
+		/// Returns top-3 the most expensive items in each category
+		/// </summary>
+		/// <param name="OutputHandler">Handler for output</param>
+		public void OutputData(Action<string, string> OutputHandler)
+		{
+			var categories = scopes.Select(x => x.GetTopExpensive());
+			foreach (var category in categories)
+			{
+				foreach (var item in category)
+				{
+					OutputHandler?.Invoke(item.ToString(), item.GetTotal.ToString("C2"));
+				}
+			}
+		}
+	}
 }

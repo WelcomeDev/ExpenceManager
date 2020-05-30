@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="AdditionalContrils\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DiagramControls\DiagramControls.csproj" />
     <ProjectReference Include="..\DiagramModel\DiagramModel.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />

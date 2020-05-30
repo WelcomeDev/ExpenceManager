@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DiagramControls;
+using DiagramModel;
+using ExpenceManager.AdditionalContrils;
+using Model;
 using Model.DataBase;
 
 namespace ExpenceManager
@@ -21,6 +25,8 @@ namespace ExpenceManager
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private readonly SolidColorBrush[] brushes = new SolidColorBrush[] { Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.Purple, Brushes.Cyan, Brushes.Orange };
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -39,7 +45,7 @@ namespace ExpenceManager
 				//Init selected date etc
 				Task.Run(() => CrossOutUnavailableDates());
 			}
-			
+
 		}
 
 		private void CrossOutUnavailableDates()
@@ -49,7 +55,12 @@ namespace ExpenceManager
 
 		private void InitializeDiagram()
 		{
-			//throw new NotImplementedException();
+			var scopes = new Scopes<GoodType, PurchaseItem>(PurchaseDB.GetAllGoodTypes, PurchaseDB.GetTypeAtDateRange, DateTime.Today, null);
+			PieDiagram pie = new PieDiagram(scopes, brushes);
+
+			Grid.SetColumn(pie, 2);
+			Grid.SetRow(pie, 0);
+			MainGrid.Children.Add(pie);
 		}
 
 		private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -59,7 +70,8 @@ namespace ExpenceManager
 
 		private void AddButton_Click(object sender, RoutedEventArgs e)
 		{
-
+			var addWin = new AddGoodWindow();
+			addWin.ShowDialog();
 		}
 
 		private void LoadFromComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

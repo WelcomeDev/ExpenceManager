@@ -1,0 +1,82 @@
+﻿<Window x:Class="ExpenceManager.AdditionalContrils.AddGoodWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Icon="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\AddExpenceIcon.png"
+        mc:Ignorable="d"
+        Title="Add good" 
+        Height="400" Width="250">
+    
+    <Grid x:Name="MainGrid"
+          Background="#D84DFF"
+          Focusable="True"
+          MouseDown="MainGrid_MouseDown">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0"
+                    HorizontalAlignment="Left">
+            <TextBlock Text="Product type" Style="{StaticResource OnAdditionTextBlock}"/>
+            
+            <ComboBox x:Name="TypeComboBox" 
+                      Style="{StaticResource ComboBox}"
+                      HorizontalAlignment="Stretch">
+                
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1"
+                    HorizontalAlignment="Left">
+            <TextBlock Text="Name" Style="{StaticResource OnAdditionTextBlock}"/>
+
+            <TextBox x:Name="NameTextBox" 
+                     HorizontalAlignment="Stretch" 
+                     Style="{StaticResource OnAdditionTextBox}"
+                     LostFocus="NameTextBox_LostFocus"/>
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1"
+                    HorizontalAlignment="Left">
+            <TextBlock Text="Price" Style="{StaticResource OnAdditionTextBlock}"/>
+
+            <TextBox x:Name="PriceTextBox" 
+                     HorizontalAlignment="Stretch" 
+                     LostFocus="PriceTextBox_LostFocus"
+                     Style="{StaticResource OnAdditionTextBox}"/>
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="1"
+                    HorizontalAlignment="Left">
+            <TextBlock Text="Amount" Style="{StaticResource OnAdditionTextBlock}"/>
+
+            <TextBox x:Name="AmountTextBox" 
+                     HorizontalAlignment="Stretch" 
+                     LostFocus="AmountTextBox_LostFocus"
+                     Style="{StaticResource OnAdditionTextBox}"/>
+
+        </StackPanel>
+
+        <Button x:Name="AddButton"
+                Grid.Column="0"
+                Click="AddButton_Click"
+                Style="{StaticResource CircleImageButton}"
+                Grid.Row="3">
+            <Image Source="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\AddIcon.png"/>
+        </Button>
+        
+    </Grid>
+    
+</Window>
