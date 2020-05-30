@@ -2,14 +2,18 @@
 
 namespace DiagramModel
 {
+	//TODO: Remove it
 	public abstract class EnumerableType<T>
 							where T : IEnumType
 	{
 		protected List<T> types;
 
-		public IEnumerator<T> GetTypes()
+		public IEnumerable<T> GetTypes()
 		{
-			return types.GetEnumerator();
+			foreach(var item in types)
+			{
+				yield return item;
+			}
 		}
 	}
 }

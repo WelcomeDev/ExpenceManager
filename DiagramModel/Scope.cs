@@ -10,7 +10,7 @@ namespace DiagramModel
 	/// <typeparam name="EType">Enum class</typeparam>
 	/// <typeparam name="DType">Data type</typeparam>
 	public partial class Scope<EType, DType>
-				where EType : Enum
+				where EType : IEnumType
 				where DType : IScopeSelectionItem
 	{
 		public decimal Sum => Items.Sum(x => x.GetTotal);
