@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Model
 {
@@ -31,18 +30,25 @@ namespace Model
 			types = Goods.Select(x => x.Key.Type).Distinct().ToList();
 		}
 
+		public IEnumerable<PurchaseItem> GetPurchaseItems()
+		{
+			return Goods.Select(x => new PurchaseItem(x.Key.Name, x.Key.Price, x.Key.Type, x.Value));
+		}
+
 		public class PurchaseItem : IScopeSelectionItem
 		{
 			public string Name { get; }
 			public decimal Price { get; }
 			public int Amount { get; }
+			public GoodType Type { get; }
 
 			public decimal GetTotal => Price * Amount;
 
-			public PurchaseItem(string name, decimal price, int amount)
+			public PurchaseItem(string name, decimal price, GoodType type, int amount)
 			{
 				Name = name;
 				Price = price;
+				Type = type;
 				Amount = amount;
 			}
 
@@ -53,18 +59,18 @@ namespace Model
 		}
 	}
 
-	public partial class Purchase : IEnumerable<Good>
+	public partial class Purchase : IEnumerable<Purchase.PurchaseItem>
 	{
 
 		//TODO: must return not good but PurchaseItem
-		public IEnumerator<Good> GetEnumerator()
+		public IEnumerator<PurchaseItem> GetEnumerator()
 		{
-			throw new NotImplementedException();
+			return Goods.Select(x => new PurchaseItem(x.Key.Name, x.Key.Price, x.Key.Type, x.Value)).GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			throw new NotImplementedException();
+			return Goods.Select(x => new PurchaseItem(x.Key.Name, x.Key.Price, x.Key.Type, x.Value)).GetEnumerator();
 		}
 	}
 }

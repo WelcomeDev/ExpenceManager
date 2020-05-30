@@ -26,33 +26,44 @@ namespace Model.DataBase
 			return db.Purchases.Select(x => x.Date);
 		}
 
-		public static IEnumerable<Good> GetTypeAtDateRange(GoodType type, DateTime initialDate, DateTime? finalDate)
+		public static IEnumerable<IEnumerable<Purchase.PurchaseItem>> GetTypeAtDateRange(GoodType type, DateTime initialDate, DateTime? finalDate)
 		{
 			using var db = new PurchaseDBContext();
 
 			ApproximateToLower(ref initialDate);
 
-			if(finalDate.HasValue)
+			if (finalDate.HasValue)
 			{
 				ApproximateToUpper(ref finalDate);
 
-				db.Purchases.Where(x => x.Date >= initialDate && x.Date <= finalDate).Select(x => x);
+				return db.Purchases.Where(x => x.Date >= initialDate && x.Date <= finalDate.Value)
+									.Select(x => x.GetPurchaseItems().Where(x => x.Type == type));
 			}
 			else
 			{
+				return db.Purchases.Where(x => x.Date.Year == initialDate.Year &&
+											x.Date.Month == initialDate.Month &&
+											x.Date.Day == initialDate.Day)
+									.Select(x => x.GetPurchaseItems().Where(x => x.Type == type));
 
 			}
-			
+
 		}
 
 		private static void ApproximateToLower(ref DateTime initialDate)
 		{
-			throw new NotImplementedException();
+			initialDate = initialDate.AddHours(-initialDate.Hour)
+									.AddMinutes(-initialDate.Minute)
+									.AddSeconds(-initialDate.Second);
 		}
 
 		private static void ApproximateToUpper(ref DateTime? finalDate)
 		{
-			throw new NotImplementedException();
+			var h = 23 - finalDate.Value.Hour;
+			var m = 59 - finalDate.Value.Minute;
+			var s = 59 - finalDate.Value.Second;
+
+			finalDate = finalDate.Value.AddHours(h).AddMinutes(m).AddSeconds(s);
 		}
 	}
 }
