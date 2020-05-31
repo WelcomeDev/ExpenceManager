@@ -71,7 +71,13 @@ namespace ExpenceManager
 		private void AddButton_Click(object sender, RoutedEventArgs e)
 		{
 			var addWin = new AddGoodWindow();
+			addWin.GoodCreated += AddWin_GoodCreated;
 			addWin.ShowDialog();
+		}
+
+		private void AddWin_GoodCreated(Good obj)
+		{
+			throw new NotImplementedException();
 		}
 
 		private void LoadFromComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -23,6 +23,11 @@
 		{
 			Type = new GoodType(type);
 		}
+
+		public Good(string name, decimal price, GoodType type) : this(name, price)
+		{
+			Type = type;
+		}
 	}
 
 	public partial class Good

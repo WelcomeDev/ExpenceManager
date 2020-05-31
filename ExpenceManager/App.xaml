@@ -5,6 +5,37 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
+
+        <Style x:Key="ComboBoxItemTextBox" TargetType="TextBox">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="#888888"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Name="Border"
+                                Padding="2"
+                                SnapsToDevicePixels="true">
+
+                            <ScrollViewer Margin="0"
+                        x:Name="PART_ContentHost" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#444444"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseCaptured" Value="True">
+                                <Setter TargetName="Border" Property ="Background" Value="#777778"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <!--TextBlock style for AddGoodWindow-->
         <Style x:Key="OnAdditionTextBlock" TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -20,13 +51,16 @@
             <Setter Property="Height" Value="25"/>
             <Setter Property="Margin" Value="4"/>
             <Setter Property="Width" Value="106"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
                         <Border x:Name="outerBorder" CornerRadius="5" 
-                                BorderThickness="1"
-                                Background="White"
-                                BorderBrush="Black"
+                                BorderThickness="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=BorderThickness}"
+                                Background="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=Background}"
+                                BorderBrush="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=BorderBrush}"
                                 Padding="2">
 
                             <ScrollViewer Margin="0"

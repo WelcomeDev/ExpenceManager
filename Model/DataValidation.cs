@@ -2,7 +2,7 @@
 {
 	public static class DataValidation
 	{
-		public static bool IsCharCapital(string data) => data.ToUpper()[0] == data[0];
+		public static bool IsCharCapital(string data) => data.Length > 0 && data.ToUpper()[0] == data[0];
 
 		//public static bool DoesEnumContainMember(Type enumType, string data)
 		//{

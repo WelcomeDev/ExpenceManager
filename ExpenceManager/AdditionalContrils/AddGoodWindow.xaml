@@ -7,12 +7,12 @@
         mc:Ignorable="d"
         Title="Add good" 
         Height="400" Width="250">
-    
+
     <Grid x:Name="MainGrid"
           Background="#D84DFF"
           Focusable="True"
           MouseDown="MainGrid_MouseDown">
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -28,11 +28,17 @@
         <StackPanel Grid.Row="0" Grid.Column="0"
                     HorizontalAlignment="Left">
             <TextBlock Text="Product type" Style="{StaticResource OnAdditionTextBlock}"/>
-            
+
             <ComboBox x:Name="TypeComboBox" 
                       Style="{StaticResource ComboBox}"
-                      HorizontalAlignment="Stretch">
-                
+                      HorizontalAlignment="Stretch"
+                      SelectionChanged="TypeComboBox_SelectionChanged">
+                <ComboBoxItem x:Name="NewItem"
+                              MouseDoubleClick="NewItem_MouseDoubleClick"
+                              GotFocus="NewItem_GotFocus"
+                              LostFocus="NewItem_LostFocus">
+                    
+                </ComboBoxItem>
             </ComboBox>
         </StackPanel>
 
@@ -76,7 +82,7 @@
                 Grid.Row="3">
             <Image Source="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\AddIcon.png"/>
         </Button>
-        
+
     </Grid>
-    
+
 </Window>
