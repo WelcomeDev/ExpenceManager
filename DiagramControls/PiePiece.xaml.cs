@@ -81,9 +81,9 @@ namespace DiagramControls
 		public void Select()
 		{
 			MainPath.StrokeThickness = 3;
-			//MainPath.Fill = Brushes.LightBlue;
-			//#9081DB
-			MainPath.Fill = new SolidColorBrush(Color.FromArgb(122, 144, 129, 219));
+			//#E999FF
+			MainPath.Fill = new SolidColorBrush(Color.FromArgb(255, 233, 153, 255));
+
 			MouseIn?.Invoke(this);
 		}
 
@@ -94,6 +94,7 @@ namespace DiagramControls
 		{
 			MainPath.StrokeThickness = 1;
 			MainPath.Fill = DefaultBrush;
+
 			MouseOut?.Invoke(this);
 		}
 

@@ -12,9 +12,9 @@ namespace Model.DataBase
 		{
 			using var db = new PurchaseDBContext();
 
-			var items = db.Purchases;
+			var items = db.Purchases.ToList();
 
-			if (items.Count() > 0) return items.OrderBy(x => x.Date).Last().Date;
+			if (items.Count > 0) return items.OrderBy(x => x.Date).Last().Date;
 
 			return null;
 		}
@@ -30,9 +30,12 @@ namespace Model.DataBase
 		{
 			using var db = new PurchaseDBContext();
 
+			//ATTENTION: It's significant to call ToList() of the db collection
+			var items = db.Purchases.ToList().Select(x => new Purchase(x)).Select(x => x.GetPurchaseItems().Select(x => x.Type).Distinct());
+
 			return DistinctCollections(
-				db.Purchases.Select(x => x.GetPurchaseItems().Select(x => x.Type).Distinct()),
-				null			//There's no rull just skip item
+				items,
+				null            //There's no rull just skip item
 				);
 		}
 
@@ -47,18 +50,20 @@ namespace Model.DataBase
 				ApproximateDateToUpper(ref finalDate);
 
 				return DistinctCollections(
-										db.Purchases.Where(x => x.Date >= initialDate && x.Date <= finalDate.Value)
-													.Select(x => x.GetPurchaseItems().Where(x => x.Type == type)),
-										(item1, item2) => item1.Amount += item2.Amount		//Sum amount of equal items
+										db.Purchases.ToList().Where(x => x.Date >= initialDate && x.Date <= finalDate.Value)
+													.Select(x => new Purchase(x))
+													.Select(x => x.GetPurchaseItems().Where(x => x.Type.Equals(type))),
+										(item1, item2) => item1.Amount += item2.Amount      //Sum amount of equal items
 										);
 			}
 			else
 			{
 				return DistinctCollections(
-										db.Purchases.Where(x => x.Date.Year == initialDate.Year &&
-															x.Date.Month == initialDate.Month &&
-															x.Date.Day == initialDate.Day)
-													.Select(x => x.GetPurchaseItems().Where(x => x.Type == type)),
+										 db.Purchases.ToList().Where(x => x.Date.Year == initialDate.Year &&
+																		x.Date.Month == initialDate.Month &&
+																		x.Date.Day == initialDate.Day)
+															.Select(x => new Purchase(x))
+															.Select(x => x.GetPurchaseItems().Where(x => x.Type.Equals(type))),
 										(item1, item2) => item1.Amount += item2.Amount      //Sum amount of equal items
 										);
 
@@ -83,7 +88,6 @@ namespace Model.DataBase
 				{
 					if (result.Contains(item))
 					{
-						//result[result.IndexOf(item)].Amount += item.Amount;
 						DistinctionRule?.Invoke(result[result.IndexOf(item)], item);
 					}
 					else
@@ -114,6 +118,13 @@ namespace Model.DataBase
 			var s = 59 - finalDate.Value.Second;
 
 			finalDate = finalDate.Value.AddHours(h).AddMinutes(m).AddSeconds(s);
+		}
+
+		public static void Add(Purchase purchase)
+		{
+			using var db = new PurchaseDBContext();
+			db.Purchases.Add(new PurchaseEntity(purchase));
+			db.SaveChanges();
 		}
 	}
 }

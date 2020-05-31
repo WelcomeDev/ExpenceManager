@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace Model.DataBase
 {
-	
+
 	internal class PurchaseDBContext : DbContext
 	{
-		internal DbSet<Purchase> Purchases { get; set; }
+		internal DbSet<PurchaseEntity> Purchases { get; set; }
 
 		internal PurchaseDBContext()
 		{
@@ -16,12 +16,10 @@ namespace Model.DataBase
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<Purchase>(p => p.HasNoKey());
-
-			modelBuilder.Entity<Purchase>(p =>
+			modelBuilder.Entity<PurchaseEntity>(p =>
 			p.Property(i => i.Goods).HasConversion(
-				s=>JsonConvert.SerializeObject(s,Formatting.None),
-				d=>JsonConvert.DeserializeObject<Dictionary<Good, int>>(d))
+				s => JsonConvert.SerializeObject(s, Formatting.None),
+				d => JsonConvert.DeserializeObject<List<PurchaseItemEntity>>(d))
 			);
 
 			base.OnModelCreating(modelBuilder);

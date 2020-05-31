@@ -1,7 +1,9 @@
 ﻿using DiagramModel;
+using Model.DataBase;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Model
@@ -16,17 +18,65 @@ namespace Model
 
 		public Dictionary<Good, int> Goods { get; }
 
+		/// <summary>
+		/// Creates Purchase object for today
+		/// </summary>
 		public Purchase()
 		{
 			types = new List<GoodType>();
 			Date = DateTime.Now;
+			Goods = new Dictionary<Good, int>();
 		}
 
-		public Purchase(DateTime date, Dictionary<Good, int> goods)
+		/// <summary>
+		/// Creares Purchase object for curtain date
+		/// </summary>
+		/// <param name="date"></param>
+		public Purchase(DateTime date)
 		{
 			Date = date;
-			Goods = goods;
+			types = new List<GoodType>();
+			Goods = new Dictionary<Good, int>();
+		}
+
+		//TODO: might be unrequired
+		internal Purchase(PurchaseEntity purchaseEntity)
+		{
+			Date = purchaseEntity.Date;
+			Goods = ConvertToModelType(purchaseEntity.Goods);
 			types = Goods.Select(x => x.Key.Type).Distinct().ToList();
+		}
+
+		private Dictionary<Good, int> ConvertToModelType(List<PurchaseItemEntity> goods)
+		{
+			var res = new Dictionary<Good, int>();
+
+			foreach (var item in goods)
+			{
+				res.Add(new Good(item.Good), item.Amount);
+			}
+
+			return res;
+		}
+
+		public void Add(PurchaseItem item)
+		{
+			if (item != null)
+			{
+				var good = new Good(item.Name, item.Price, item.Type);
+
+				if (Goods.ContainsKey(good))
+				{
+					Goods[good] += item.Amount;
+				}
+				else
+				{
+					Goods.Add(good, item.Amount);
+
+					if (types.Contains(good.Type) == false)
+						types.Add(good.Type);
+				}
+			}
 		}
 
 		public IEnumerable<PurchaseItem> GetPurchaseItems()
@@ -62,12 +112,21 @@ namespace Model
 		public int Amount { get; internal set; }
 		public GoodType Type { get; }
 
-		public PurchaseItem(string name, decimal price, GoodType type, int amount)
+		private PurchaseItem(string name, decimal price, int amount)
 		{
 			Name = name;
 			Price = price;
-			Type = type;
 			Amount = amount;
+		}
+
+		public PurchaseItem(string name, decimal price, GoodType type, int amount) : this(name, price, amount)
+		{
+			Type = type;
+		}
+
+		public PurchaseItem(string name, decimal price, string type, int amount) : this(name, price, amount)
+		{
+			Type = new GoodType(type);
 		}
 
 		public override string ToString()
@@ -101,9 +160,9 @@ namespace Model
 			if (other is null)
 				return false;
 
-			return Name == other.Name
+			return Name.Equals(other.Name)
 					&& Price == other.Price
-					&& Type == other.Type;
+					&& Type.Equals(other.Type);
 		}
 	}
 }

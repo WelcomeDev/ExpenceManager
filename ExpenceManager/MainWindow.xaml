@@ -7,18 +7,19 @@
         mc:Ignorable="d"
         Icon="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\PieDiagramIcon.png"
         Title="Expence manager"
-        Height="450" Width="800">
+        MinHeight="600"
+        MinWidth="1300">
     <Grid x:Name="MainGrid"
           Focusable="True"
-          Background="#D84DFF"
+          Background="#6C2680"
           MouseDown="MainGrid_MouseDown">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="0.25*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" Panel.ZIndex="10">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -46,7 +47,17 @@
                 <ComboBox x:Name="LoadFromComboBox"
                           Style="{StaticResource ComboBox}"
                           SelectionChanged="LoadFromComboBox_SelectionChanged">
-                    <ComboBoxItem Tag="TXT">From txt</ComboBoxItem>
+                    <ComboBoxItem Tag="TXT">
+                        <ComboBoxItem.Content>
+                            From txt
+                        </ComboBoxItem.Content>
+                        <ComboBoxItem.ToolTip>
+                            <StackPanel>
+                                <TextBlock>Watch sample!</TextBlock>
+                                <Image Source=""/>
+                            </StackPanel>
+                        </ComboBoxItem.ToolTip>
+                        </ComboBoxItem>
                     <ComboBoxItem Tag="EXCEL">From excel</ComboBoxItem>
                 </ComboBox>
 
@@ -74,12 +85,17 @@
         </Grid>
 
         <Calendar x:Name="ManagerCalendar"
+                  Grid.Column="1"
                   Margin="20,20,0,0"
                   Background="#E999FF"
                   SelectionMode="MultipleRange"
+                  IsTodayHighlighted="False"
                   DisplayDateStart="2018/01/01"
                   SelectedDatesChanged="ManagerCalendar_SelectedDatesChanged"
-                  Grid.Column="1"/>
+                  Panel.ZIndex="10"/>
+
+        <Border Background="#D84DFF" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,4,0"/>
+
 
         <TextBlock x:Name="LoadingTextBlockAnimation"
                    VerticalAlignment="Center"

@@ -28,9 +28,6 @@ namespace DiagramControls
 
 		public PieDiagram(Scopes<GoodType, PurchaseItem> scopes, SolidColorBrush[] brushes)
 		{
-			if (scopes.Count() < brushes.Length)
-				throw new ArgumentException($"Amount of {nameof(brushes)} must be not less then amount of members in enum {scopes.EnumType.Name}");
-
 			if (scopes is null)
 				throw new ArgumentNullException($"{nameof(scopes)} was null!");
 
@@ -98,10 +95,13 @@ namespace DiagramControls
 			}
 		}
 
+		private const int ElementToForegroundIndex = 10;
+		private const int ElementToBachgroundIndex = 0;
+
 		private void PiePiece_MouseOut(PiePiece sender)
 		{
+			Panel.SetZIndex(sender, ElementToBachgroundIndex);
 			ShowGeneralInfo();
-
 		}
 
 		private void ShowGeneralInfo()
@@ -109,13 +109,14 @@ namespace DiagramControls
 			piePieceHeaderTextBlock.Text = "General info";
 
 			DiagramInfo.Clear();
-			DiagramInfo.Note = "Here is the most expensive items";
+			DiagramInfo.Note = "Here are the most expensive items";
 			DiagramInfo.Header = Scopes.TotalSum.ToString("C2");
 			Scopes.OutputData((col1, col2) => DiagramInfo.Add(col1, col2));
 		}
 
 		private void PiePiece_MouseIn(PiePiece sender)
 		{
+			Panel.SetZIndex(sender, ElementToForegroundIndex);
 			int num = sender.Num;
 			var curScope = Scopes[num];
 			piePieceHeaderTextBlock.Text = $"{curScope.EnumMember}";

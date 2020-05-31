@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using DiagramModel;
+using Model.DataBase;
 
 namespace Model
 {
-	public partial class GoodType: IEnumType
+	public partial class GoodType
 	{
-		public string Item { get; }
-
 		public GoodType(GoodTypes type)
 		{
 			Item = type.ToString();
@@ -22,10 +21,17 @@ namespace Model
 
 			Item = newType;
 		}
+
+		internal GoodType(GoodTypeEntity goodTypeEntity)
+		{
+			Item = goodTypeEntity.Name;
+		}
 	}
 
-	public partial class GoodType : IEquatable<GoodType>, IEquatable<GoodTypes>, IComparable<GoodType>
+	public partial class GoodType : IEquatable<GoodType>, IEquatable<GoodTypes>, IComparable<GoodType>, IEnumType
 	{
+		public string Item { get; }
+
 		public override bool Equals(object obj)
 		{
 			return obj switch

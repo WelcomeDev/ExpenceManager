@@ -19,8 +19,12 @@
 		//	return false;
 		//}
 
-		public static bool IsPriceValid(string input) => decimal.TryParse(input, out var res) && res > 0;
+		public static bool IsPriceValid(string input) => decimal.TryParse(input, out var res) && IsPriceValid(res);
 
-		public static bool IsAmountValid(string input) => int.TryParse(input, out var res) && res > 0 && res < 1000;
+		public static bool IsPriceValid(decimal num) => num > 0 && num < (decimal)1e9;
+
+		public static bool IsAmountValid(string input) => int.TryParse(input, out var res) && IsAmountValid(res);
+
+		public static bool IsAmountValid(int num) => num > 0 && num < 1000;
 	}
 }

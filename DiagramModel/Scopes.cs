@@ -20,10 +20,7 @@ namespace DiagramModel
 		public DateTime InitialDate { get; }
 		public DateTime? FinalDate { get; }
 		public IEnumerable<EType> EnumValues { get; }
-		public Type EnumType { get; }
 		public decimal TotalSum => scopes.Sum(x => x.Sum);
-
-		public List<string> TotalInfo { get; private set; }
 
 		private readonly List<Scope<EType, DType>> scopes = new List<Scope<EType, DType>>();
 
@@ -35,7 +32,6 @@ namespace DiagramModel
 		/// <param name="finalDate">End of Date range</param>
 		public Scopes(Func<IEnumerable<EType>> typesProvider, Func<EType, DateTime, DateTime?, IEnumerable<DType>> dataProvider, DateTime initialDate, DateTime? finalDate)
 		{
-
 			InitialDate = initialDate;
 			FinalDate = finalDate;
 

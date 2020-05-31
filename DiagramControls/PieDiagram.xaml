@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="MainGrid" 
-          Focusable="True" Background="#2B798F">
+          Focusable="True" Background="#D84DFF">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1.5*"/>
             <ColumnDefinition Width="3*"/>

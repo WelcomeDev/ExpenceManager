@@ -6,22 +6,24 @@
              xmlns:local="clr-namespace:DiagramControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Path x:Name="MainPath"
+    <!--<Grid Background="Transparent">-->
+        <Path x:Name="MainPath"
               Stroke="Black"
               StrokeThickness="1"
               Fill="{Binding DefaultBrush}"
               MouseEnter="Path_MouseEnter" MouseLeave="Path_MouseLeave">
-        <Path.Data>
-            <GeometryGroup>
-                <PathGeometry>
-                    <PathFigure StartPoint="{Binding Center}" IsFilled="True" x:Name="Geometry" IsClosed="False"/>
-                </PathGeometry>
-            </GeometryGroup>
-        </Path.Data>
-        <Path.RenderTransform>
-            <TransformGroup>
-                <RotateTransform x:Name="SectorRotation" CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}"/>
-            </TransformGroup>
-        </Path.RenderTransform>
-    </Path>
+            <Path.Data>
+                <GeometryGroup>
+                    <PathGeometry>
+                        <PathFigure StartPoint="{Binding Center}" IsFilled="True" x:Name="Geometry" IsClosed="False"/>
+                    </PathGeometry>
+                </GeometryGroup>
+            </Path.Data>
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform x:Name="SectorRotation" CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}"/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+    <!--</Grid>-->
 </UserControl>
