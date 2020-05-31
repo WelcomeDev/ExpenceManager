@@ -154,4 +154,9 @@ namespace ExpenceManager.AdditionalContrils
 
 		}
 	}
+
+	public partial class AddGoodWindow
+	{
+		public static event Action ItemCreated;
+	}
 }
