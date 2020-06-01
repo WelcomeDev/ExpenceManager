@@ -18,7 +18,7 @@ namespace ExpenceManager.AdditionalContrils
 	/// </summary>
 	public partial class AddPurchaseWindow : Window
 	{
-		private Purchase purchase = new Purchase();
+		private readonly Purchase purchase = new Purchase();
 		public event Action<Purchase> PurchaseCreated;
 
 		public AddPurchaseWindow()
@@ -26,7 +26,7 @@ namespace ExpenceManager.AdditionalContrils
 			InitializeComponent();
 
 			AddGoodPage.GoodCreated += AddGoodPage_GoodCreated;
-			TheAddPageFrame.Source = new Uri(@"AdditionalContrils\AddGoodPage.xaml", UriKind.Relative);
+			TheAddPageFrame.Source = new Uri(@"AddGoodPage.xaml", UriKind.Relative);
 		}
 
 		private void AddGoodPage_GoodCreated(PurchaseItem obj)
@@ -44,11 +44,20 @@ namespace ExpenceManager.AdditionalContrils
 
 		private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
 		{
-
+			MainGrid.Focus();
 		}
 
 		private void ConfirmButton_Click(object sender, RoutedEventArgs e)
 		{
+			if (purchase.ItemsAmount > 0)
+			{
+				PurchaseCreated?.Invoke(purchase);
+				Close();
+			}
+			else
+			{
+				MessageBox.Show("Goods list is empty!");
+			}
 
 		}
 	}

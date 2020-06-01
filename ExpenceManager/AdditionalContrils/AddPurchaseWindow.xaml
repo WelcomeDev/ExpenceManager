@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExpenceManager.AdditionalContrils"
         mc:Ignorable="d"
-        Title="AddPurchaseWindow" Height="450" Width="800">
+        Title="AddPurchaseWindow"
+        MinHeight="490"
+        MinWidth="810"
+        MaxHeight="490"
+        MaxWidth="810">
     
     <Grid x:Name="MainGrid"
           Focusable="True"
