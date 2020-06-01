@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
 
 namespace Model.DataBase
 {
@@ -23,7 +21,7 @@ namespace Model.DataBase
 		{
 			using var db = new PurchaseDBContext();
 
-			return db.Purchases.Select(x => x.Date);
+			return db.Purchases.ToList().Select(x => x.Date);
 		}
 
 		public static IEnumerable<GoodType> GetAllGoodTypes()

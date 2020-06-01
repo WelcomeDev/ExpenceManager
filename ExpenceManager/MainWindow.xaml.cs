@@ -2,18 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DiagramControls;
 using DiagramModel;
 using ExpenceManager.AdditionalContrils;
@@ -38,6 +32,8 @@ namespace ExpenceManager
 		private readonly Func<IEnumerable<GoodType>> typesProvider;
 		private readonly Func<GoodType, DateTime, DateTime?, IEnumerable<PurchaseItem>> dataProvider;
 
+		public DateTime InitialDate => new DateTime(2018, 1, 1);
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -52,11 +48,12 @@ namespace ExpenceManager
 		{
 			var lastDate = PurchaseDB.GetLastPurchaseDate();
 			ManagerCalendar.DisplayDateEnd = DateTime.Today;
+			ManagerCalendar.DisplayDateStart = InitialDate;
 
 			if (lastDate != null)
 			{
 				InitializeDiagram();
-				//Init selected date etc
+				ManagerCalendar.SelectedDate = lastDate;
 				Task.Run(() => CrossOutUnavailableDates());
 			}
 
@@ -66,6 +63,20 @@ namespace ExpenceManager
 		private void CrossOutUnavailableDates()
 		{
 			var availableDates = PurchaseDB.GetAvailableDates();
+			Dispatcher.Invoke(() => ManagerCalendar.BlackoutDates.Clear());
+
+			var currentDate = DateTime.Today;
+			while (currentDate != InitialDate)
+			{
+				if (availableDates.Count(x => x.Year == currentDate.Year &&
+										x.Month == currentDate.Month &&
+										x.Day == currentDate.Day) == 0)     // if there's no such date
+				{
+					Dispatcher.Invoke(() => ManagerCalendar.BlackoutDates.Add(new CalendarDateRange(currentDate)));
+				}
+
+				currentDate = currentDate.AddDays(-1);
+			}
 		}
 
 		private void InitializeDiagram()
@@ -85,6 +96,8 @@ namespace ExpenceManager
 
 		private void LoadNewPie(DateTime initialDate, DateTime? finalDate)
 		{
+			Task.Run(() => CrossOutUnavailableDates());
+
 			if (pie is null)
 			{
 				var scopes = new Scopes<GoodType, PurchaseItem>(typesProvider, dataProvider, initialDate, finalDate);
@@ -96,7 +109,7 @@ namespace ExpenceManager
 			{
 				var scopes = new Scopes<GoodType, PurchaseItem>(typesProvider, dataProvider, initialDate, finalDate);
 				pie = new PieDiagram(scopes, brushes);
-			}
+			}	
 		}
 
 		private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -114,7 +127,7 @@ namespace ExpenceManager
 		private void PurchaseWin_PurchaseCreated(Purchase obj)
 		{
 			purchase = obj;
-			//LOAD
+			LoadNewPie(purchase.Date, null);
 		}
 
 		private void LoadFromComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -185,10 +198,7 @@ namespace ExpenceManager
 				PurchaseDB.Add(purchase);
 				Thread.CurrentThread.Join();
 
-				//TODO: remove that date from crossed out
 				LoadNewPie(date, null);
-
-				//TODO: select date in diagram and join main thread
 			}
 			catch (Exception ex)
 			{
@@ -198,7 +208,7 @@ namespace ExpenceManager
 
 		private void ExportComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			
+
 		}
 
 		private void ManagerCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)

@@ -90,7 +90,6 @@
                   Background="#E999FF"
                   SelectionMode="MultipleRange"
                   IsTodayHighlighted="False"
-                  DisplayDateStart="2018/01/01"
                   SelectedDatesChanged="ManagerCalendar_SelectedDatesChanged"
                   Panel.ZIndex="10"/>
 
