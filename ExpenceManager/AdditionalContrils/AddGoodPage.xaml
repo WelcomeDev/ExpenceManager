@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:ExpenceManager.AdditionalContrils"
       mc:Ignorable="d" 
       Title="Add good" 
-      Height="400" Width="250">
+      MinHeight="400" MinWidth="250"
+      ShowsNavigationUI="False">
 
     <Grid x:Name="MainGrid"
           Background="#D84DFF"

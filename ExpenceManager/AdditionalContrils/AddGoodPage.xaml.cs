@@ -1,16 +1,9 @@
 ﻿using Model;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ExpenceManager.AdditionalContrils
 {
@@ -21,6 +14,8 @@ namespace ExpenceManager.AdditionalContrils
 	{
 		private readonly SolidColorBrush InvalidBrush = new SolidColorBrush(Colors.Red);
 		private readonly SolidColorBrush ValidBrush = new SolidColorBrush(Colors.Green);
+		private Brush DefaultBrush { get; }
+		private Thickness DefaultThichness { get; }
 
 		private bool amountValid = false;
 		private bool priceValid = false;
@@ -28,10 +23,12 @@ namespace ExpenceManager.AdditionalContrils
 		private bool typeValid = false;
 		private GoodType goodType;
 
-		//TODO: make binding in xaml to default props
 		public AddGoodPage()
 		{
 			InitializeComponent();
+
+			DefaultBrush = AmountTextBox.BorderBrush;
+			DefaultThichness = AmountTextBox.BorderThickness;
 
 			InitializeComboBox();
 			//SOLVE: add item to createNewType
@@ -57,12 +54,15 @@ namespace ExpenceManager.AdditionalContrils
 			{
 				GoodCreated?.Invoke(new PurchaseItem(NameTextBox.Text,
 													decimal.Parse(PriceTextBox.Text),
-													goodType, 
+													goodType,
 													int.Parse(AmountTextBox.Text)));
-				return;
+				Clear();
+			}
+			else
+			{
+				MessageBox.Show("Invalid data, please check input");
 			}
 
-			MessageBox.Show("Invalid data, please check input");
 		}
 
 		private void NameTextBox_LostFocus(object sender, RoutedEventArgs e)
@@ -118,7 +118,8 @@ namespace ExpenceManager.AdditionalContrils
 
 		private void ToDefaultView(Control control)
 		{
-			//TODO: add default thickness and Brush, initialized in ctor
+			control.BorderThickness = DefaultThichness;
+			control.BorderBrush = DefaultBrush;
 		}
 
 		private void TypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -143,6 +144,20 @@ namespace ExpenceManager.AdditionalContrils
 			}
 
 			typeValid = false;
+		}
+
+		private void Clear()
+		{
+			ToDefaultView(AmountTextBox);
+			AmountTextBox.Text = "";
+
+			ToDefaultView(PriceTextBox);
+			PriceTextBox.Text = "";
+
+			ToDefaultView(NameTextBox);
+			NameTextBox.Text = "";
+
+			TypeComboBox.SelectedIndex = -1;
 		}
 
 		private void NewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)

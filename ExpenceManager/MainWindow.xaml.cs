@@ -29,6 +29,7 @@ namespace ExpenceManager
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private const string SampleExamplesDir = @"C:\Users\aleks\source\repos\ExpenceManager\Purchase txt samples";
 		private readonly SolidColorBrush[] brushes = new SolidColorBrush[] { Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.Purple, Brushes.Cyan, Brushes.Orange };
 
 		private Purchase purchase;
@@ -112,7 +113,8 @@ namespace ExpenceManager
 
 		private void PurchaseWin_PurchaseCreated(Purchase obj)
 		{
-			//throw new NotImplementedException();
+			purchase = obj;
+			//LOAD
 		}
 
 		private void LoadFromComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -148,7 +150,7 @@ namespace ExpenceManager
 
 			OpenFileDialog openFileDialog = new OpenFileDialog
 			{
-				InitialDirectory = @"C:\Users\aleks\source\repos\ExpenceManager\Purchase txt samples",
+				InitialDirectory = SampleExamplesDir,
 			};
 			openFileDialog.ShowDialog();
 
@@ -194,10 +196,9 @@ namespace ExpenceManager
 			}
 		}
 
-		//SOLVE: set min win size
 		private void ExportComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			//LoadNewPie();
+			
 		}
 
 		private void ManagerCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)

@@ -3,7 +3,6 @@ using Model.DataBase;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Model
@@ -12,7 +11,7 @@ namespace Model
 	{
 		public DateTime Date { get; }
 
-		public decimal Sum => Goods.Sum(x => x.Key.Price);
+		public decimal Sum => Goods.Sum(x => x.Key.Price * x.Value);
 
 		public int ItemsAmount => Goods.Count;
 
@@ -39,7 +38,6 @@ namespace Model
 			Goods = new Dictionary<Good, int>();
 		}
 
-		//TODO: might be unrequired
 		internal Purchase(PurchaseEntity purchaseEntity)
 		{
 			Date = purchaseEntity.Date;

@@ -94,7 +94,7 @@
                   SelectedDatesChanged="ManagerCalendar_SelectedDatesChanged"
                   Panel.ZIndex="10"/>
 
-        <Border Background="#D84DFF" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,4,0"/>
+        <Border Background="#D84DFF" Grid.Column="0" Grid.ColumnSpan="2" Margin="1,2,3,2"/>
 
 
         <TextBlock x:Name="LoadingTextBlockAnimation"

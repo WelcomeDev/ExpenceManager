@@ -1,15 +1,9 @@
 ﻿using Model;
+using Model.DataBase;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ExpenceManager.AdditionalContrils
 {
@@ -24,6 +18,7 @@ namespace ExpenceManager.AdditionalContrils
 		public AddPurchaseWindow()
 		{
 			InitializeComponent();
+			TotalPriceTextBlock.Text = 0.ToString("C2");
 
 			AddGoodPage.GoodCreated += AddGoodPage_GoodCreated;
 			TheAddPageFrame.Source = new Uri(@"AddGoodPage.xaml", UriKind.Relative);
@@ -34,12 +29,12 @@ namespace ExpenceManager.AdditionalContrils
 			purchase.Add(obj);
 
 			Refresh();
-			//throw new NotImplementedException();
 		}
 
 		private void Refresh()
 		{
 			GoodsDataGrid.ItemsSource = purchase.GetPurchaseItems();
+			TotalPriceTextBlock.Text = purchase.Sum.ToString("C2");
 		}
 
 		private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -51,6 +46,7 @@ namespace ExpenceManager.AdditionalContrils
 		{
 			if (purchase.ItemsAmount > 0)
 			{
+				Task.Run(() => PurchaseDB.Add(purchase));
 				PurchaseCreated?.Invoke(purchase);
 				Close();
 			}
@@ -58,7 +54,6 @@ namespace ExpenceManager.AdditionalContrils
 			{
 				MessageBox.Show("Goods list is empty!");
 			}
-
 		}
 	}
 }

@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExpenceManager.AdditionalContrils"
         mc:Ignorable="d"
-        Title="AddPurchaseWindow"
-        MinHeight="490"
-        MinWidth="810"
-        MaxHeight="490"
-        MaxWidth="810">
+        Icon="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\AddExpenceIcon.png"
+        Title="Purchase"
+        WindowStartupLocation="CenterScreen"
+        MinHeight="520"
+        MinWidth="890"
+        MaxHeight="520"
+        MaxWidth="890">
     
     <Grid x:Name="MainGrid"
+          Background="#D84DFF"
           Focusable="True"
           MouseDown="MainGrid_MouseDown">
 
@@ -27,6 +30,7 @@
 
         <DataGrid x:Name="GoodsDataGrid"
                   Grid.Row="0"
+                  Background="#E999FF"
                   Grid.Column="0"
                   AutoGenerateColumns="False">
             <DataGrid.Columns>
@@ -37,23 +41,39 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Frame x:Name="TheAddPageFrame"
-               Grid.Row="0"
-               Grid.Column="1"/>
+        <Border Grid.Row="0"
+                Background="#6C2680"
+               Grid.Column="1">
+            <Frame x:Name="TheAddPageFrame"
+                   Margin="8"
+               NavigationUIVisibility="Hidden"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"/>
+        </Border>
+        
 
         <StackPanel Orientation="Horizontal"
                     Grid.Row="1"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Right"
                     Grid.Column="0">
-            <TextBlock Text="Total"/>
+            <TextBlock Text="Total: "
+                       TextAlignment="Right" 
+                       Style="{StaticResource OnAdditionTextBlock}"/>
+            <TextBlock x:Name="TotalPriceTextBlock" 
+                       TextAlignment="Left"
+                       Style="{StaticResource OnAdditionTextBlock}"/>
         </StackPanel>
 
         <Button x:Name="ConfirmButton"
                 Click="ConfirmButton_Click"
                 Grid.Row="1"
-                Grid.Column="1">
-            Confirm
+                Grid.Column="1"
+                Style="{StaticResource ImageSquareButton}"
+                HorizontalAlignment="Left"
+                MinHeight="50"
+                MinWidth="50">
+            <Image Source="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\AddExpenceIcon.png"/>
         </Button>
     </Grid>
     
