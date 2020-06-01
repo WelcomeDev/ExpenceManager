@@ -105,14 +105,14 @@ namespace ExpenceManager
 
 		private void AddButton_Click(object sender, RoutedEventArgs e)
 		{
-			var addWin = new AddGoodWindow();
-			addWin.GoodCreated += AddWin_GoodCreated;
-			addWin.ShowDialog();
+			var purchaseWin = new AddPurchaseWindow();
+			purchaseWin.PurchaseCreated += PurchaseWin_PurchaseCreated;
+			purchaseWin.ShowDialog();
 		}
 
-		private void AddWin_GoodCreated(Good obj)
+		private void PurchaseWin_PurchaseCreated(Purchase obj)
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		private void LoadFromComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

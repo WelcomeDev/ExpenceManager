@@ -1,12 +1,12 @@
-﻿<Window x:Class="ExpenceManager.AdditionalContrils.AddGoodWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Icon="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\AddExpenceIcon.png"
-        mc:Ignorable="d"
-        Title="Add good" 
-        Height="400" Width="250">
+﻿<Page x:Class="ExpenceManager.AdditionalContrils.AddGoodPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ExpenceManager.AdditionalContrils"
+      mc:Ignorable="d" 
+      Title="Add good" 
+      Height="400" Width="250">
 
     <Grid x:Name="MainGrid"
           Background="#D84DFF"
@@ -37,7 +37,7 @@
                               MouseDoubleClick="NewItem_MouseDoubleClick"
                               GotFocus="NewItem_GotFocus"
                               LostFocus="NewItem_LostFocus">
-                    
+
                 </ComboBoxItem>
             </ComboBox>
         </StackPanel>
@@ -84,5 +84,4 @@
         </Button>
 
     </Grid>
-
-</Window>
+</Page>

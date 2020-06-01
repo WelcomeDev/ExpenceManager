@@ -1,16 +1,23 @@
 ﻿using Model;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace ExpenceManager.AdditionalContrils
 {
 	/// <summary>
-	/// Логика взаимодействия для AddGoodWindow.xaml
+	/// Логика взаимодействия для AddGoodPage.xaml
 	/// </summary>
-	public partial class AddGoodWindow : Window
+	public partial class AddGoodPage : Page
 	{
 		private readonly SolidColorBrush InvalidBrush = new SolidColorBrush(Colors.Red);
 		private readonly SolidColorBrush ValidBrush = new SolidColorBrush(Colors.Green);
@@ -21,10 +28,8 @@ namespace ExpenceManager.AdditionalContrils
 		private bool typeValid = false;
 		private GoodType goodType;
 
-		public event Action<Good> GoodCreated;
-
 		//TODO: make binding in xaml to default props
-		public AddGoodWindow()
+		public AddGoodPage()
 		{
 			InitializeComponent();
 
@@ -50,9 +55,10 @@ namespace ExpenceManager.AdditionalContrils
 		{
 			if (amountValid && priceValid && nameValid && typeValid)
 			{
-				GoodCreated?.Invoke(new Good(NameTextBox.Text,
-					decimal.Parse(PriceTextBox.Text), goodType));
-				Close();
+				GoodCreated?.Invoke(new PurchaseItem(NameTextBox.Text,
+													decimal.Parse(PriceTextBox.Text),
+													goodType, 
+													int.Parse(AmountTextBox.Text)));
 				return;
 			}
 
@@ -155,8 +161,8 @@ namespace ExpenceManager.AdditionalContrils
 		}
 	}
 
-	public partial class AddGoodWindow
+	public partial class AddGoodPage
 	{
-		public static event Action ItemCreated;
+		public static event Action<PurchaseItem> GoodCreated;
 	}
 }

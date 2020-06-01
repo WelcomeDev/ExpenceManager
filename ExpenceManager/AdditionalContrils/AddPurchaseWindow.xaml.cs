@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -17,9 +18,28 @@ namespace ExpenceManager.AdditionalContrils
 	/// </summary>
 	public partial class AddPurchaseWindow : Window
 	{
+		private Purchase purchase = new Purchase();
+		public event Action<Purchase> PurchaseCreated;
+
 		public AddPurchaseWindow()
 		{
 			InitializeComponent();
+
+			AddGoodPage.GoodCreated += AddGoodPage_GoodCreated;
+			TheAddPageFrame.Source = new Uri(@"AdditionalContrils\AddGoodPage.xaml", UriKind.Relative);
+		}
+
+		private void AddGoodPage_GoodCreated(PurchaseItem obj)
+		{
+			purchase.Add(obj);
+
+			Refresh();
+			//throw new NotImplementedException();
+		}
+
+		private void Refresh()
+		{
+			GoodsDataGrid.ItemsSource = purchase.GetPurchaseItems();
 		}
 
 		private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)

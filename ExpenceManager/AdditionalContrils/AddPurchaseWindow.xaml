@@ -23,9 +23,17 @@
 
         <DataGrid x:Name="GoodsDataGrid"
                   Grid.Row="0"
-                  Grid.Column="0"/>
+                  Grid.Column="0"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Item" Binding="{Binding Path=Name}"/>
+                <DataGridTextColumn Header="Amount" Binding="{Binding Path=Amount}"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding Path=Price}"/>
+                <DataGridTextColumn Header="Total price" Binding="{Binding Path=GetTotal}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
-        <Frame x:Name="AddPageFrame"
+        <Frame x:Name="TheAddPageFrame"
                Grid.Row="0"
                Grid.Column="1"/>
 
