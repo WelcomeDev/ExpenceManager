@@ -9,5 +9,6 @@ namespace Utils.Managers
 	/// </summary>
 	public static partial class ExcelFileManager
 	{
+		//SOLVE: create Excel template for IO
 	}
 }
