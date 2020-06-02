@@ -37,7 +37,7 @@ namespace Model.DataBase
 				);
 		}
 
-		public static IEnumerable<PurchaseItem> GetTypeAtDateRange(GoodType type, DateTime initialDate, DateTime? finalDate)
+		public static IEnumerable<PurchaseItem> GetItemsByTypeAtDateRange(GoodType type, DateTime initialDate, DateTime? finalDate)
 		{
 			using var db = new PurchaseDBContext();
 

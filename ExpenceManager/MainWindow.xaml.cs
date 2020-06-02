@@ -40,7 +40,7 @@ namespace ExpenceManager
 			InitializeComponent();
 
 			typesProvider = PurchaseDB.GetAllGoodTypes;
-			dataProvider = PurchaseDB.GetTypeAtDateRange;
+			dataProvider = PurchaseDB.GetItemsByTypeAtDateRange;
 
 			Initialize();
 		}
