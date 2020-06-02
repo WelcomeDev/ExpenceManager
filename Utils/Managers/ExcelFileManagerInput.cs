@@ -13,20 +13,13 @@ namespace Utils.Managers
 	/// </summary>
 	public static partial class ExcelFileManager
 	{
-		public static IEnumerable<PurchaseItem> Read(string fileName)
+		public static IEnumerable<Purchase> Read(string fileName)
 		{
 			List<Purchase> purchases = ReadExcel(fileName);
 
 			foreach (var purchase in purchases)
 			{
-				if (purchase != null)
-				{
-					foreach (var good in purchase)
-					{
-						if (good != null)
-							yield return good;
-					}
-				}
+				yield return purchase;
 			}
 		}
 

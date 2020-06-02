@@ -99,18 +99,21 @@ namespace ExpenceManager
 		{
 			Task.Run(() => CrossOutUnavailableDates());
 
-			if (pie is null)
+			Dispatcher?.Invoke(() =>
 			{
-				var scopes = new Scopes<GoodType, PurchaseItem>(typesProvider, dataProvider, initialDate, finalDate);
-				pie = new PieDiagram(scopes, brushes);
+				if (pie is null)
+				{
+					var scopes = new Scopes<GoodType, PurchaseItem>(typesProvider, dataProvider, initialDate, finalDate);
+					pie = new PieDiagram(scopes, brushes);
 
-				PlacePie();
-			}
-			else
-			{
-				var scopes = new Scopes<GoodType, PurchaseItem>(typesProvider, dataProvider, initialDate, finalDate);
-				pie = new PieDiagram(scopes, brushes);
-			}	
+					PlacePie();
+				}
+				else
+				{
+					var scopes = new Scopes<GoodType, PurchaseItem>(typesProvider, dataProvider, initialDate, finalDate);
+					pie.LoadNew(scopes);
+				}
+			});
 		}
 
 		private void MainGrid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -186,18 +189,19 @@ namespace ExpenceManager
 		{
 			try
 			{
-				var date = File.GetLastWriteTime(fileName);
-				purchase = new Purchase(date);
+				var items = ExcelFileManager.Read(fileName);
 
-				foreach(var item in ExcelFileManager.Read(fileName))
+				DateTime initialDate = items.First().Date;
+				DateTime? finalDate = items.Last().Date;
+				foreach (var item in items)
 				{
-					purchase.Add(item);
+					PurchaseDB.Add(item);
 				}
 
-				PurchaseDB.Add(purchase);
-				Thread.CurrentThread.Join();
+				if (initialDate == finalDate.Value)
+					finalDate = null;
 
-				LoadNewPie(date, null);
+				LoadNewPie(initialDate, finalDate);
 			}
 			catch (Exception ex)
 			{
@@ -244,7 +248,6 @@ namespace ExpenceManager
 				}
 
 				PurchaseDB.Add(purchase);
-				Thread.CurrentThread.Join();
 
 				LoadNewPie(date, null);
 			}

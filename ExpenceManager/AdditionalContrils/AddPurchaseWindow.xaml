@@ -46,9 +46,9 @@
                Grid.Column="1">
             <Frame x:Name="TheAddPageFrame"
                    Margin="8"
-               NavigationUIVisibility="Hidden"
-               HorizontalAlignment="Stretch"
-               VerticalAlignment="Stretch"/>
+                   NavigationUIVisibility="Hidden"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"/>
         </Border>
         
 

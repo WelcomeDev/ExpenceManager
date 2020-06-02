@@ -37,7 +37,6 @@ namespace DiagramModel
 
 			EnumValues = typesProvider.Invoke();
 			Initialize(dataProvider);
-
 		}
 
 		private void Initialize(Func<EType, DateTime, DateTime?, IEnumerable<DType>> dataProvider)
@@ -49,7 +48,6 @@ namespace DiagramModel
 				if (FinalDate.HasValue)
 				{
 					scope = new Scope<EType, DType>(result, InitialDate, FinalDate.Value);
-
 				}
 				else
 				{
