@@ -255,6 +255,8 @@ namespace ExpenceManager
 				Dispatcher.Invoke(() => LoadingTextBlockAnimation.Text = "Loading...");
 				Thread.Sleep(delayTime);
 			}
+
+			Dispatcher.Invoke(() => LoadingTextBlockAnimation.Visibility = Visibility.Hidden);
 		}
 
 		private void ReadTxtFile(string fileName)
