@@ -9,5 +9,8 @@ namespace Utils.Managers
 	/// </summary>
 	public static partial class ExcelFileManager
 	{
+		///TODO: out order by Type then Name and add formuls in total line
+		///add headers = Type, Name, Price, Amount, Total
+		///Than Total for total
 	}
 }

@@ -2,6 +2,16 @@
 {
 	public static class DataValidation
 	{
+		public static bool IsNameValid(string data)
+		{
+			if (string.IsNullOrWhiteSpace(data) == false)
+			{
+				return IsCharCapital(data.Trim());
+			}
+
+			return false;
+		}
+
 		public static bool IsCharCapital(string data) => data.Length > 0 && data.ToUpper()[0] == data[0];
 
 		//public static bool DoesEnumContainMember(Type enumType, string data)

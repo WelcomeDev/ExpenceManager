@@ -21,6 +21,7 @@ using Microsoft.Win32;
 using Model;
 using Model.DataBase;
 using Utils.InputUtils;
+using Utils.Managers;
 
 namespace ExpenceManager
 {
@@ -139,7 +140,54 @@ namespace ExpenceManager
 
 		private void OpenExcelFileDialog()
 		{
-			//throw new NotImplementedException();
+			const string txtExtension = ".xlsx";
+
+			OpenFileDialog openFileDialog = new OpenFileDialog
+			{
+				InitialDirectory = @"C:\Users\aleks\source\repos\ExpenceManager\Purchase xlsx samples",
+			};
+			openFileDialog.ShowDialog();
+
+			var fileName = openFileDialog.FileName;
+			if (fileName.EndsWith(txtExtension))
+			{
+				ReadXlsxAsync(fileName);
+			}
+			else
+			{
+				MessageBox.Show("Please select Excel(.xlsx) file.");
+			}
+		}
+
+		private async void ReadXlsxAsync(string fileName)
+		{
+			await Task.Run(() => ReadXlsxFile(fileName));
+			//TODO: display loading animation
+			//TODO: what to do with general Purchase. It could be edited by other proccess
+			//TODO: refactor "Read.." methods
+		}
+
+		private void ReadXlsxFile(string fileName)
+		{
+			try
+			{
+				var date = File.GetLastWriteTime(fileName);
+				purchase = new Purchase(date);
+
+				foreach(var item in ExcelFileManager.Read(fileName))
+				{
+					purchase.Add(item);
+				}
+
+				PurchaseDB.Add(purchase);
+				Thread.CurrentThread.Join();
+
+				LoadNewPie(date, null);
+			}
+			catch (Exception ex)
+			{
+				Dispatcher.Invoke(() => MessageBox.Show(ex.Message));
+			}
 		}
 
 		private void OpenTxtFileDialog()

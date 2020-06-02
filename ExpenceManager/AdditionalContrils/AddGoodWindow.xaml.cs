@@ -61,7 +61,7 @@ namespace ExpenceManager.AdditionalContrils
 
 		private void NameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			if (DataValidation.IsCharCapital(NameTextBox.Text))
+			if (DataValidation.IsNameValid(NameTextBox.Text))
 			{
 				nameValid = true;
 				ToValidView(NameTextBox);
@@ -119,7 +119,7 @@ namespace ExpenceManager.AdditionalContrils
 		{
 			var objStr = TypeComboBox.SelectedItem.ToString();
 
-			if (DataValidation.IsCharCapital(objStr))
+			if (DataValidation.IsNameValid(objStr))
 			{
 				//TODO: add logic - such already exist
 				if (Enum.TryParse(typeof(GoodTypes), objStr, out var result))
