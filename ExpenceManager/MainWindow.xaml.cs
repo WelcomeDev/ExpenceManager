@@ -283,7 +283,37 @@ namespace ExpenceManager
 
 		private void ExportComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			if (ExportComboBox.SelectedItem != null)
+			{
+				var itemTag = ((ComboBoxItem)ExportComboBox.SelectedItem).Tag;
 
+				ExportComboBox.SelectedIndex = -1;
+				switch (itemTag)
+				{
+					case "PDF":
+						CreatePdfFile();
+						break;
+
+					case "EXCEL":
+						CreateExcelFile();
+						break;
+
+					default:
+						throw new ArgumentException("Can't recognize the tag");
+				}
+			}
+		}
+
+		private async void CreateExcelFile()
+		{
+			GetDates(out DateTime initialDate, out DateTime? finalDate);
+
+			await Task.Run(() => ExcelFileManager.Create(initialDate, finalDate));
+		}
+
+		private void CreatePdfFile()
+		{
+			throw new NotImplementedException();
 		}
 
 		private void ManagerCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -292,10 +322,7 @@ namespace ExpenceManager
 			{
 				Mouse.Capture(null);
 
-				var dates = ManagerCalendar.SelectedDates.OrderBy(x => x.Date);
-
-				DateTime initialDate = dates.First();
-				DateTime? finalDate = dates.Last();
+				GetDates(out DateTime initialDate, out DateTime? finalDate);
 
 				if (initialDate == finalDate.Value)
 					finalDate = null;
@@ -307,6 +334,14 @@ namespace ExpenceManager
 			{
 				Initialize();
 			}
+		}
+
+		private void GetDates(out DateTime initialDate, out DateTime? finalDate)
+		{
+			var dates = ManagerCalendar.SelectedDates.OrderBy(x => x.Date);
+
+			initialDate = dates.First();
+			finalDate = dates.Last();
 		}
 	}
 }
