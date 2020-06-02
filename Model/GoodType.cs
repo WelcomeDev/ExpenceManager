@@ -14,12 +14,15 @@ namespace Model
 
 		public GoodType(string newType)
 		{
+			if (string.IsNullOrWhiteSpace(newType))
+				throw new ArgumentException($"Invalid type {newType}");
+
 			if (DataValidation.IsCharCapital(newType) == false)
 			{
 				newType = string.Concat(newType[0].ToString().ToUpper(), newType.Substring(1));
 			}
 
-			Item = newType;
+			Item = newType.Trim();
 		}
 
 		internal GoodType(GoodTypeEntity goodTypeEntity)
