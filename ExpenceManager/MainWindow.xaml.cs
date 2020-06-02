@@ -57,8 +57,6 @@ namespace ExpenceManager
 				ManagerCalendar.SelectedDate = lastDate;
 				Task.Run(() => CrossOutUnavailableDates());
 			}
-
-			//TODO: drop loading selection
 		}
 
 		private void CrossOutUnavailableDates()
@@ -140,6 +138,7 @@ namespace ExpenceManager
 			{
 				var itemTag = ((ComboBoxItem)LoadFromComboBox.SelectedItem).Tag;
 
+				LoadFromComboBox.SelectedIndex = -1;
 				switch (itemTag)
 				{
 					case "TXT":
@@ -179,10 +178,10 @@ namespace ExpenceManager
 
 		private async void ReadXlsxAsync(string fileName)
 		{
-			await Task.Run(() => ReadXlsxFile(fileName));
-			//TODO: display loading animation
+			var runningTask = Task.Run(() => ReadXlsxFile(fileName));
+			await Task.Run(() => LoadingAnimation(runningTask));
+			//SOLVE: figure out problem with wrong hightlight in diagram
 			//TODO: what to do with general Purchase. It could be edited by other proccess
-			//TODO: refactor "Read.." methods
 		}
 
 		private void ReadXlsxFile(string fileName)
@@ -232,7 +231,30 @@ namespace ExpenceManager
 
 		private async void ReadTxtAsync(string fileName)
 		{
-			await Task.Run(() => ReadTxtFile(fileName));
+			var runningTask = Task.Run(() => ReadTxtFile(fileName));
+			await Task.Run(() => LoadingAnimation(runningTask));
+		}
+
+		private void LoadingAnimation(Task runningTask)
+		{
+			const int delayTime = 300;
+			Dispatcher.Invoke(() => LoadingTextBlockAnimation.Visibility = Visibility.Visible);
+
+			while (runningTask.Status != TaskStatus.RanToCompletion &&
+					runningTask.Status != TaskStatus.Faulted)
+			{
+				Dispatcher.Invoke(() => LoadingTextBlockAnimation.Text = "Loading");
+				Thread.Sleep(delayTime);
+
+				Dispatcher.Invoke(() => LoadingTextBlockAnimation.Text = "Loading.");
+				Thread.Sleep(delayTime);
+
+				Dispatcher.Invoke(() => LoadingTextBlockAnimation.Text = "Loading..");
+				Thread.Sleep(delayTime);
+
+				Dispatcher.Invoke(() => LoadingTextBlockAnimation.Text = "Loading...");
+				Thread.Sleep(delayTime);
+			}
 		}
 
 		private void ReadTxtFile(string fileName)

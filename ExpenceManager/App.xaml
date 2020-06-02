@@ -6,6 +6,7 @@
     <Application.Resources>
 
 
+        <!--Item to add new Type-->
         <Style x:Key="ComboBoxItemTextBox" TargetType="TextBox">
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>

@@ -1,0 +1,4 @@
+Food Shava 220 1
+Food Water 1.5l 40 2
+Food Semki 200g 50 2
+Medicine Valerianka 100 10
