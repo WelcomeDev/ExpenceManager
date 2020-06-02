@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Model.DataBase
 {
@@ -41,10 +42,9 @@ namespace Model.DataBase
 		{
 			using var db = new PurchaseDBContext();
 
-			ApproximateDateToLower(ref initialDate);
-
 			if (finalDate.HasValue)
 			{
+				ApproximateDateToLower(ref initialDate);
 				ApproximateDateToUpper(ref finalDate);
 
 				return DistinctCollections(
@@ -116,6 +116,30 @@ namespace Model.DataBase
 			var s = 59 - finalDate.Value.Second;
 
 			finalDate = finalDate.Value.AddHours(h).AddMinutes(m).AddSeconds(s);
+		}
+
+		public static IEnumerable<Purchase> GetPurchase(DateTime initialDate, DateTime? finalDate)
+		{
+			using var db = new PurchaseDBContext();
+
+			if (finalDate.HasValue)
+			{
+				ApproximateDateToLower(ref initialDate);
+				ApproximateDateToUpper(ref finalDate);
+				return db.Purchases.ToList()
+									.Where(x => x.Date >= initialDate && x.Date <= finalDate.Value)
+									.Select(x=> new Purchase(x));
+			}
+			else
+			{
+				return db.Purchases.ToList()
+									.Where(x => x.Date.Day == initialDate.Day &&
+												x.Date.Month == initialDate.Month && 
+												x.Date.Year == initialDate.Year)
+									.Select(x => new Purchase(x));
+			}
+
+
 		}
 
 		public static void Add(Purchase purchase)
