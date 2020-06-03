@@ -77,7 +77,6 @@
                           Style="{StaticResource ComboBox}"
                           SelectionChanged="ExportComboBox_SelectionChanged">
                     <ComboBoxItem Tag="EXCEL">To excel</ComboBoxItem>
-                    <ComboBoxItem Tag="PDF">To pdf</ComboBoxItem>
                 </ComboBox>
 
             </StackPanel>

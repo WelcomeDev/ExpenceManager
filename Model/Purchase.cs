@@ -33,6 +33,9 @@ namespace Model
 		/// <param name="date"></param>
 		public Purchase(DateTime date)
 		{
+			if (DataValidation.IsDateValid(date) == false)
+				throw new ArgumentException($"Invalid date {date}");
+
 			Date = date;
 			types = new List<GoodType>();
 			Goods = new Dictionary<Good, int>();

@@ -1,4 +1,6 @@
-﻿namespace Model
+﻿using System;
+
+namespace Model
 {
 	public static class DataValidation
 	{
@@ -14,20 +16,12 @@
 
 		public static bool IsCharCapital(string data) => data.Length > 0 && data.ToUpper()[0] == data[0];
 
-		//public static bool DoesEnumContainMember(Type enumType, string data)
-		//{
-		//	if(enumType.IsEnum)
-		//	{
-		//		var members = Enum.GetValues(enumType);
-		//		foreach(var member in members)
-		//		{
-		//			if (member.ToString().Equals(data))
-		//				return true;
-		//		}
-		//	}
+		public static bool IsDateValid(DateTime date)
+		{
+			date = date.AddHours(-date.Hour).AddMinutes(-date.Minute).AddSeconds(-date.Second);
 
-		//	return false;
-		//}
+			return date > new DateTime(2018, 1, 1) && date <= DateTime.Today;
+		}
 
 		public static bool IsPriceValid(string input) => decimal.TryParse(input, out var res) && IsPriceValid(res);
 

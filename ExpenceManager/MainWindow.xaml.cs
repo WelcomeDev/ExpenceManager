@@ -180,8 +180,8 @@ namespace ExpenceManager
 		{
 			var runningTask = Task.Run(() => ReadXlsxFile(fileName));
 			await Task.Run(() => LoadingAnimation(runningTask));
+			//SOLVE: add new GoodTypes addition
 			//SOLVE: figure out problem with wrong hightlight in diagram
-			//TODO: what to do with general Purchase. It could be edited by other proccess
 		}
 
 		private void ReadXlsxFile(string fileName)
@@ -290,10 +290,6 @@ namespace ExpenceManager
 				ExportComboBox.SelectedIndex = -1;
 				switch (itemTag)
 				{
-					case "PDF":
-						CreatePdfFile();
-						break;
-
 					case "EXCEL":
 						CreateExcelFile();
 						break;
@@ -309,11 +305,6 @@ namespace ExpenceManager
 			GetDates(out DateTime initialDate, out DateTime? finalDate);
 
 			await Task.Run(() => ExcelFileManager.Create(initialDate, finalDate));
-		}
-
-		private void CreatePdfFile()
-		{
-			throw new NotImplementedException();
 		}
 
 		private void ManagerCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)

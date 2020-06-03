@@ -1,8 +1,6 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.Office.Core;
 using System.IO;
 using ExcelDataReader;
 
@@ -35,7 +33,7 @@ namespace Utils.Managers
 				while (reader.Read())       //each Row
 				{
 					var obj = reader.GetValue(0);
-					if (obj is DateTime dateTime)
+					if (obj is DateTime dateTime && DataValidation.IsDateValid(dateTime))
 					{
 						AddPurchase(res, purchase);
 
