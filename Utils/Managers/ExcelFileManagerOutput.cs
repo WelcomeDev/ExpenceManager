@@ -27,7 +27,7 @@ namespace Utils.Managers
 		///Than TotalSum of total
 		public static async void Create(DateTime initialDate, DateTime? finalDate)
 		{
-			var getDataTask = Task.Run(() => GetDataTable(initialDate, finalDate));
+			var getDataTask = Task.Run(() => GetTableData(initialDate, finalDate));
 			var onCreationTask = Task.Run(() => OnCreation());
 
 
@@ -38,7 +38,7 @@ namespace Utils.Managers
 							onCreationTask.Result.Worksheet(FirstSheetName))
 											);
 
-			onCreationTask.Result.CalculateMode = XLCalculateMode.Default;
+			onCreationTask.Result.CalculateMode = XLCalculateMode.Auto;
 			onCreationTask.Result.SaveAs(Path.Combine(DirPath, Guid.NewGuid().ToString() + ExcelExtension));
 		}
 
@@ -47,12 +47,15 @@ namespace Utils.Managers
 			XLWorkbook workBook = new XLWorkbook();
 			workBook.Worksheets.Add(FirstSheetName);
 			workBook.Worksheets.Add(SecondSheetName);
-			//TOOD: out to second one: here you can place your diagram :)
+
+			var secondSheet = workBook.Worksheet(SecondSheetName);
+			secondSheet.Cell("A1").Value = "Here's the place for your diagram ;)";
+			secondSheet.Columns().AdjustToContents();
 
 			return workBook;
 		}
 
-		private static IEnumerable<Purchase> GetDataTable(DateTime initialDate, DateTime? finalDate)
+		private static IEnumerable<Purchase> GetTableData(DateTime initialDate, DateTime? finalDate)
 		{
 			if (finalDate.HasValue && initialDate == finalDate.Value)
 				finalDate = null;
@@ -90,7 +93,7 @@ namespace Utils.Managers
 		private static void OutPurchaseSum(IXLWorksheet sheet, ref int currentRow, int rowDataBegin)
 		{
 			var cell = sheet.Cell(currentRow++, 5);
-			cell.Value = $"=СУММ($E{rowDataBegin}:$E{currentRow - 2})";
+			cell.Value = sheet.Evaluate($"=SUM($E{rowDataBegin}:$E{currentRow - 2})");
 			cell.Style.Fill.BackgroundColor = XLColor.FromColor(Color.LightPink);
 		}
 
@@ -121,7 +124,7 @@ namespace Utils.Managers
 			sheet.Cell(row, column++).Value = item.Name;
 			sheet.Cell(row, column++).Value = item.Price;
 			sheet.Cell(row, column++).Value = item.Amount;
-			sheet.Cell(row, column++).Value = $"=$C{row}*$D{row}";
+			sheet.Cell(row, column++).Value = sheet.Evaluate($"=$C{row}*$D{row}");
 		}
 
 		/// <summary>
