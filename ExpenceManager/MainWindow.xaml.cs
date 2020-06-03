@@ -180,7 +180,6 @@ namespace ExpenceManager
 		{
 			var runningTask = Task.Run(() => ReadXlsxFile(fileName));
 			await Task.Run(() => LoadingAnimation(runningTask));
-			//SOLVE: add new GoodTypes addition
 		}
 
 		private void ReadXlsxFile(string fileName)

@@ -5,16 +5,18 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ExpenceManager.AdditionalContrils"
       mc:Ignorable="d"
-      Height="150"
+      Height="120"
       Title="AddNewGoodTypePage">
     <Grid x:Name="MainPanel"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
           Focusable="True"
           MouseDown="MainPanel_MouseDown"
           Background="#D84DFF">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <TextBlock Text="Good type"
@@ -23,17 +25,18 @@
                    Margin="2,6,2,6"/>
         
         <TextBox x:Name="NewItemTextBox" Style="{StaticResource OnAdditionTextBox}"
-                  Grid.Row="1"
+                 Grid.Row="1"
+                 Margin="5"
                  LostFocus="NewItemTextBox_LostFocus"/>
 
         <Button x:Name="AddButton"
                 Grid.Row="2"
                 Click="AddButton_Click"
                 Style="{StaticResource ImageSquareButton}"
-                HorizontalAlignment="Left"
-                MinHeight="50"
-                MaxHeight="50"
-                MaxWidth="50"
+                HorizontalAlignment="Center"
+                MinHeight="40"
+                MaxHeight="40"
+                MaxWidth="40"
                 MinWidth="50">
             <Image Source="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\AddItemIcon2.png"/>
         </Button>

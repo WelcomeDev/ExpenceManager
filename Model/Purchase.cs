@@ -91,7 +91,6 @@ namespace Model
 	public partial class Purchase : IEnumerable<PurchaseItem>
 	{
 
-		//TODO: must return not good but PurchaseItem
 		public IEnumerator<PurchaseItem> GetEnumerator()
 		{
 			return Goods.Select(x => new PurchaseItem(x.Key.Name, x.Key.Price, x.Key.Type, x.Value)).GetEnumerator();

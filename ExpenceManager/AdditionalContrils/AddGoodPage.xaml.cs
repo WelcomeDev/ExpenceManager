@@ -30,8 +30,36 @@ namespace ExpenceManager.AdditionalContrils
 			DefaultBrush = AmountTextBox.BorderBrush;
 			DefaultThickness = AmountTextBox.BorderThickness;
 
+			AddNewGoodTypePage.GoodTypeCreated += AddNewGoodTypePage_GoodTypeCreated;
+
 			InitializeComboBox();
-			//SOLVE: add item to createNewType
+		}
+
+		private void AddNewGoodTypePage_GoodTypeCreated(GoodType obj)
+		{
+			if (obj != null)
+			{
+				var index = ComboBoxContains(obj);
+				if (index == -1)
+				{
+					TypeComboBox.Items.Add(obj);
+					index = TypeComboBox.Items.IndexOf(obj);
+				}
+
+				TypeComboBox.SelectedIndex = index;
+				FrameBorder.Visibility = Visibility.Hidden;
+			}
+		}
+
+		private int ComboBoxContains(GoodType obj)
+		{
+			for (int i = 0; i < TypeComboBox.Items.Count; i++)
+			{
+				if (TypeComboBox.Items[i].ToString() == obj.ToString())
+					return i;
+			}
+
+			return -1;
 		}
 
 		private void InitializeComboBox()
@@ -106,11 +134,24 @@ namespace ExpenceManager.AdditionalContrils
 
 		private void TypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			var objStr = TypeComboBox.SelectedItem.ToString();
+			if (TypeComboBox.SelectedIndex == -1)
+			{
+				typeValid = false;
+				return;
+			}
 
+			if (TypeComboBox.SelectedIndex == 0)
+			{
+				TypeComboBox.SelectedIndex = -1;
+				NewGoodTypeFrame.Source = new Uri(@"AddNewGoodTypePage.xaml", UriKind.Relative);
+				FrameBorder.Visibility = Visibility.Visible;
+				return;
+			}
+
+			var objStr = TypeComboBox.SelectedItem.ToString();
+			FrameBorder.Visibility = Visibility.Hidden;
 			if (DataValidation.IsNameValid(objStr))
 			{
-				//TODO: add logic - such already exist
 				if (Enum.TryParse(typeof(GoodTypes), objStr, out var result))
 				{
 					goodType = new GoodType((GoodTypes)result);
@@ -126,10 +167,13 @@ namespace ExpenceManager.AdditionalContrils
 			}
 
 			typeValid = false;
+
 		}
 
 		private void Clear()
 		{
+			FrameBorder.Visibility = Visibility.Hidden;
+
 			AmountTextBox.ToDefaultView(DefaultThickness, DefaultBrush);
 			amountValid = false;
 			AmountTextBox.Text = "";
@@ -144,21 +188,6 @@ namespace ExpenceManager.AdditionalContrils
 
 			typeValid = false;
 			TypeComboBox.SelectedIndex = -1;
-		}
-
-		private void NewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-
-		}
-
-		private void NewItem_GotFocus(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void NewItem_LostFocus(object sender, RoutedEventArgs e)
-		{
-
 		}
 	}
 
