@@ -26,6 +26,20 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
+        <Border x:Name="FrameBorder"
+                Visibility="Visible"
+                Grid.Column="0"
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                BorderThickness="0"
+                Background="#6C2680">
+            <Frame x:Name="NewGoodTypeFrame"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Margin="4"
+                   Visibility="Hidden"/>
+        </Border>
+
         <StackPanel Grid.Row="0" Grid.Column="0"
                     HorizontalAlignment="Left">
             <TextBlock Text="Product type" Style="{StaticResource OnAdditionTextBlock}"/>
