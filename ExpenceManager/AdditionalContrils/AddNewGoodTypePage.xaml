@@ -4,14 +4,38 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ExpenceManager.AdditionalContrils"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      mc:Ignorable="d"
+      Height="150"
       Title="AddNewGoodTypePage">
-    <StackPanel Orientation="Vertical"
-                x:Name="MainPanel"
-                Focusable="True"
-                MouseDown="MainPanel_MouseDown"
-                Background="#D84DFF">
+    <Grid x:Name="MainPanel"
+          Focusable="True"
+          MouseDown="MainPanel_MouseDown"
+          Background="#D84DFF">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         
-    </StackPanel>
+        <TextBlock Text="Good type"
+                   Style="{StaticResource OnAdditionTextBlock}"
+                   Grid.Row="0"
+                   Margin="2,6,2,6"/>
+        
+        <TextBox x:Name="NewItemTextBox" Style="{StaticResource OnAdditionTextBox}"
+                  Grid.Row="1"
+                 LostFocus="NewItemTextBox_LostFocus"/>
+
+        <Button x:Name="AddButton"
+                Grid.Row="2"
+                Click="AddButton_Click"
+                Style="{StaticResource ImageSquareButton}"
+                HorizontalAlignment="Left"
+                MinHeight="50"
+                MaxHeight="50"
+                MaxWidth="50"
+                MinWidth="50">
+            <Image Source="C:\Users\aleks\source\repos\ExpenceManager\ExpenceManager\Resources\AddItemIcon2.png"/>
+        </Button>
+    </Grid>
 </Page>

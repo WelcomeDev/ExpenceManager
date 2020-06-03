@@ -48,12 +48,7 @@
                       Style="{StaticResource ComboBox}"
                       HorizontalAlignment="Stretch"
                       SelectionChanged="TypeComboBox_SelectionChanged">
-                <ComboBoxItem x:Name="NewItem"
-                              MouseDoubleClick="NewItem_MouseDoubleClick"
-                              GotFocus="NewItem_GotFocus"
-                              LostFocus="NewItem_LostFocus">
-
-                </ComboBoxItem>
+                <ComboBoxItem Tag="NewItem">New</ComboBoxItem>
             </ComboBox>
         </StackPanel>
 

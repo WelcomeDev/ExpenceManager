@@ -12,10 +12,10 @@ namespace ExpenceManager.AdditionalContrils
 	/// </summary>
 	public partial class AddGoodPage : Page
 	{
-		private readonly SolidColorBrush InvalidBrush = new SolidColorBrush(Colors.Red);
-		private readonly SolidColorBrush ValidBrush = new SolidColorBrush(Colors.Green);
+		public readonly SolidColorBrush InvalidBrush = new SolidColorBrush(Colors.Red);
+		public readonly SolidColorBrush ValidBrush = new SolidColorBrush(Colors.Green);
 		private Brush DefaultBrush { get; }
-		private Thickness DefaultThichness { get; }
+		private Thickness DefaultThickness { get; }
 
 		private bool amountValid = false;
 		private bool priceValid = false;
@@ -28,7 +28,7 @@ namespace ExpenceManager.AdditionalContrils
 			InitializeComponent();
 
 			DefaultBrush = AmountTextBox.BorderBrush;
-			DefaultThichness = AmountTextBox.BorderThickness;
+			DefaultThickness = AmountTextBox.BorderThickness;
 
 			InitializeComboBox();
 			//SOLVE: add item to createNewType
@@ -70,12 +70,12 @@ namespace ExpenceManager.AdditionalContrils
 			if (DataValidation.IsNameValid(NameTextBox.Text))
 			{
 				nameValid = true;
-				ToValidView(NameTextBox);
+				NameTextBox.ToValidView();
 				return;
 			}
 
 			nameValid = false;
-			ToInvalidView(NameTextBox);
+			NameTextBox.ToInvalidView();
 		}
 
 		private void PriceTextBox_LostFocus(object sender, RoutedEventArgs e)
@@ -83,12 +83,12 @@ namespace ExpenceManager.AdditionalContrils
 			if (DataValidation.IsPriceValid(PriceTextBox.Text))
 			{
 				priceValid = true;
-				ToValidView(PriceTextBox);
+				PriceTextBox.ToValidView();
 				return;
 			}
 
 			priceValid = false;
-			ToInvalidView(PriceTextBox);
+			PriceTextBox.ToInvalidView();
 		}
 
 		private void AmountTextBox_LostFocus(object sender, RoutedEventArgs e)
@@ -96,30 +96,12 @@ namespace ExpenceManager.AdditionalContrils
 			if (DataValidation.IsAmountValid(AmountTextBox.Text))
 			{
 				amountValid = true;
-				ToValidView(AmountTextBox);
+				AmountTextBox.ToValidView();
 				return;
 			}
 
 			amountValid = false;
-			ToInvalidView(AmountTextBox);
-		}
-
-		private void ToInvalidView(Control control)
-		{
-			control.BorderThickness = new Thickness(2);
-			control.BorderBrush = InvalidBrush;
-		}
-
-		private void ToValidView(Control control)
-		{
-			control.BorderThickness = new Thickness(2);
-			control.BorderBrush = ValidBrush;
-		}
-
-		private void ToDefaultView(Control control)
-		{
-			control.BorderThickness = DefaultThichness;
-			control.BorderBrush = DefaultBrush;
+			AmountTextBox.ToInvalidView();
 		}
 
 		private void TypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -148,15 +130,19 @@ namespace ExpenceManager.AdditionalContrils
 
 		private void Clear()
 		{
-			ToDefaultView(AmountTextBox);
+			AmountTextBox.ToDefaultView(DefaultThickness, DefaultBrush);
+			amountValid = false;
 			AmountTextBox.Text = "";
 
-			ToDefaultView(PriceTextBox);
+			PriceTextBox.ToDefaultView(DefaultThickness, DefaultBrush);
+			priceValid = false;
 			PriceTextBox.Text = "";
 
-			ToDefaultView(NameTextBox);
+			NameTextBox.ToDefaultView(DefaultThickness, DefaultBrush);
+			nameValid = false;
 			NameTextBox.Text = "";
 
+			typeValid = false;
 			TypeComboBox.SelectedIndex = -1;
 		}
 
