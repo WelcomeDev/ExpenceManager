@@ -46,7 +46,7 @@ namespace ExpenceManager.AdditionalContrils
 		{
 			if (purchase.ItemsAmount > 0)
 			{
-				Task.Run(() => PurchaseDB.Add(purchase));
+				PurchaseDB.Add(purchase);
 				PurchaseCreated?.Invoke(purchase);
 				Close();
 			}

@@ -21,6 +21,7 @@ namespace DiagramModel
 		public DateTime? FinalDate { get; }
 		public IEnumerable<EType> EnumValues { get; }
 		public decimal TotalSum => scopes.Sum(x => x.Sum);
+		public int NotEmptyScopesAmount => scopes.Count() - scopes.Count(x => x.Sum == 0);
 
 		private readonly List<Scope<EType, DType>> scopes = new List<Scope<EType, DType>>();
 

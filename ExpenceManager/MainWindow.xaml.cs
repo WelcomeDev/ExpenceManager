@@ -25,7 +25,7 @@ namespace ExpenceManager
 	public partial class MainWindow : Window
 	{
 		private const string SampleExamplesDir = @"C:\Users\aleks\source\repos\ExpenceManager\Purchase txt samples";
-		private readonly SolidColorBrush[] brushes = new SolidColorBrush[] { Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.Purple, Brushes.Cyan, Brushes.Orange };
+		private SolidColorBrush[] brushes = new SolidColorBrush[] { Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.Purple, Brushes.Cyan, Brushes.Orange };
 
 		private Purchase purchase;
 		private PieDiagram pie;
@@ -81,9 +81,49 @@ namespace ExpenceManager
 		private void InitializeDiagram()
 		{
 			var scopes = new Scopes<GoodType, PurchaseItem>(typesProvider, dataProvider, DateTime.Today, null);
+
+			if (scopes.NotEmptyScopesAmount > brushes.Length)
+				CreateBrushes(scopes.NotEmptyScopesAmount);
+
 			pie = new PieDiagram(scopes, brushes);
 
 			PlacePie();
+		}
+
+		private void CreateBrushes(int scopesAmount)
+		{
+			var rnd = new Random(BitConverter.ToInt32(Guid.NewGuid().ToByteArray()));
+
+			var d = scopesAmount - brushes.Length;
+			Array.Resize(ref brushes, brushes.Length + d);
+
+			while (d > 0)
+			{
+				var color = Color.FromRgb((byte)rnd.Next(byte.MaxValue),
+											(byte)rnd.Next(byte.MaxValue),
+											(byte)rnd.Next(byte.MaxValue));
+
+				if (IsSimular(color) == false)
+				{
+					brushes[^d] = new SolidColorBrush(color);
+				}
+
+				d--;
+			}
+		}
+
+		private bool IsSimular(Color color)
+		{
+			for (int i = 0; i < brushes.Length; i++)
+			{
+				if (brushes[i] != null)
+				{
+					if (Color.AreClose(brushes[i].Color, color))
+						return true;
+				}
+			}
+
+			return false;
 		}
 
 		private void PlacePie()
@@ -102,6 +142,10 @@ namespace ExpenceManager
 				if (pie is null)
 				{
 					var scopes = new Scopes<GoodType, PurchaseItem>(typesProvider, dataProvider, initialDate, finalDate);
+
+					if (scopes.NotEmptyScopesAmount > brushes.Length)
+						CreateBrushes(scopes.NotEmptyScopesAmount);
+
 					pie = new PieDiagram(scopes, brushes);
 
 					PlacePie();
@@ -109,6 +153,10 @@ namespace ExpenceManager
 				else
 				{
 					var scopes = new Scopes<GoodType, PurchaseItem>(typesProvider, dataProvider, initialDate, finalDate);
+
+					if (scopes.NotEmptyScopesAmount > brushes.Length)
+						CreateBrushes(scopes.NotEmptyScopesAmount);
+
 					pie.LoadNew(scopes);
 				}
 			});

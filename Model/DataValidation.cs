@@ -20,7 +20,7 @@ namespace Model
 		{
 			date = date.AddHours(-date.Hour).AddMinutes(-date.Minute).AddSeconds(-date.Second);
 
-			return date > new DateTime(2018, 1, 1) && date <= DateTime.Today;
+			return date > new DateTime(2018, 1, 1) && date <= DateTime.Now;
 		}
 
 		public static bool IsPriceValid(string input) => decimal.TryParse(input, out var res) && IsPriceValid(res);

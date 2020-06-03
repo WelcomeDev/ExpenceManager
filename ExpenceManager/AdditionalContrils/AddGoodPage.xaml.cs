@@ -1,4 +1,5 @@
 ﻿using Model;
+using Model.DataBase;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -68,6 +69,13 @@ namespace ExpenceManager.AdditionalContrils
 			foreach (var item in items)
 			{
 				TypeComboBox.Items.Add(item);
+			}
+
+			var existingTypes = PurchaseDB.GetAllGoodTypes();
+			foreach(var item in existingTypes)
+			{
+				if(ComboBoxContains(item)==-1)
+					TypeComboBox.Items.Add(item);
 			}
 		}
 

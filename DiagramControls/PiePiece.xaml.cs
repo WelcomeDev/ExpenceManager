@@ -43,6 +43,7 @@ namespace DiagramControls
 		public event PiePieceHandler MouseIn;
 		public event PiePieceHandler MouseOut;
 
+		public int Num { get; }
 		public int Ind { get; }
 		public Point Center { get; private set; } = new Point(0, 0);
 
@@ -55,10 +56,11 @@ namespace DiagramControls
 			InitializeComponent();
 		}
 
-		public PiePiece(int i, double angle, SolidColorBrush brush)
+		public PiePiece(int num, int ind, double angle, SolidColorBrush brush)
 		{
 			InitializeComponent();
-			Ind = i;
+			Num = num;
+			Ind = ind;
 			DefaultBrush = brush;
 			Angle = angle;
 		}

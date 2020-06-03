@@ -81,7 +81,8 @@ namespace DiagramControls
 				if (Scopes[i].Sum != 0)
 				{
 					var angle = Convert.ToDouble((Scopes[i].Sum * FullAngle) / generalVol);
-					var piePiece = new PiePiece(amount++, angle, UsersBrushes[i]);
+					var piePiece = new PiePiece(amount,i, angle, UsersBrushes[amount]);
+					amount++;
 					piePiece.MouseIn += PiePiece_MouseIn;
 					piePiece.MouseOut += PiePiece_MouseOut;
 					piePiece.Rotate(genAngle);
@@ -119,8 +120,8 @@ namespace DiagramControls
 			piePieceHeaderTextBlock.Text = $"{curScope.EnumMember}";
 
 			DiagramInfo.Clear();
-			DiagramInfo.Header = $"{Scopes[ind].Sum:C2} ({curScope.Ratio: #0.##%})";
-			Scopes[ind].OutputData((col1, col2) => DiagramInfo.Add(col1, col2));
+			DiagramInfo.Header = $"{curScope.Sum:C2} ({curScope.Ratio: #0.##%})";
+			curScope.OutputData((col1, col2) => DiagramInfo.Add(col1, col2));
 		}
 
 		private void InitializeLegend()
@@ -132,7 +133,8 @@ namespace DiagramControls
 			{
 				if (Scopes[i].Sum != 0)                      //Initialize LegendItems only for not empty Pies
 				{
-					var legendItem = new PieLegendItem(amount++, UsersBrushes[i], Scopes[i].EnumMember.Item);
+					var legendItem = new PieLegendItem(amount, UsersBrushes[amount], Scopes[i].EnumMember.Item);
+					amount++;
 					legendItem.MouseOn += LegendItem_MouseOn;
 					legendItem.MouseOut += LegendItem_MouseOut;
 					legend.Children.Add(legendItem);
@@ -142,7 +144,7 @@ namespace DiagramControls
 
 		private void LegendItem_MouseOut(int ind)
 		{
-			if (ind >= 0 && ind < Scopes.Count())
+			if (ind >= 0 && ind < piePieces.Count())
 				piePieces[ind].Unselect();
 		}
 
