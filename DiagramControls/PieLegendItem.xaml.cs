@@ -22,9 +22,9 @@ namespace DiagramControls
 		public delegate void LegendHandler(int num);
 		public event LegendHandler MouseOn;
 		public event LegendHandler MouseOut;
-		public int Num { get; }
+		public int Ind { get; }
 
-		public PieLegendItem(int num, Brush color, string title)
+		public PieLegendItem(int i, Brush color, string title)
 		{
 			InitializeComponent();
 
@@ -34,13 +34,13 @@ namespace DiagramControls
 
 			ItemColor.Background = InitialBrush = color;
 			ItemName.Text = title;
-			Num = num;
+			Ind = i;
 		}
 
 		private void Item_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
 		{
 			ToSelectedView();
-			MouseOn?.Invoke(Num);
+			MouseOn?.Invoke(Ind);
 		}
 
 		private void ToSelectedView()
@@ -54,7 +54,7 @@ namespace DiagramControls
 		private void Item_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
 		{
 			ToUnselectedView();
-			MouseOut?.Invoke(Num);
+			MouseOut?.Invoke(Ind);
 		}
 
 		private void ToUnselectedView()

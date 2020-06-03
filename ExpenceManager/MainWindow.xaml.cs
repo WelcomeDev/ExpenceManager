@@ -181,7 +181,6 @@ namespace ExpenceManager
 			var runningTask = Task.Run(() => ReadXlsxFile(fileName));
 			await Task.Run(() => LoadingAnimation(runningTask));
 			//SOLVE: add new GoodTypes addition
-			//SOLVE: figure out problem with wrong hightlight in diagram
 		}
 
 		private void ReadXlsxFile(string fileName)

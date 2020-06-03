@@ -89,6 +89,14 @@ namespace DiagramModel
 			}
 		}
 
+		public Scope<EType, DType> this[EType typeName]
+		{
+			get
+			{
+				return scopes.FirstOrDefault(x => x.EnumMember.Equals(typeName));
+			}
+		}
+
 		public IEnumerator<Scope<EType, DType>> GetEnumerator()
 		{
 			return scopes.GetEnumerator();

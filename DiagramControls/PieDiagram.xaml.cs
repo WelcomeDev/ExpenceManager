@@ -14,8 +14,6 @@ namespace DiagramControls
 	/// </summary>
 	public partial class PieDiagram : UserControl
 	{
-		//TODO: make templated
-		//TODO: out only total prise for each GoodType in GeneralInfo
 		//SOLVE: color generation
 		public DateTime Initial { get; }
 		public DateTime? Final { get; }
@@ -48,9 +46,6 @@ namespace DiagramControls
 
 		public void LoadNew(Scopes<GoodType, PurchaseItem> scopes)
 		{
-			if (legend.Children.Count == 0)
-				InitializeLegend();
-
 			ClearPie();
 
 			if (scopes is null)
@@ -64,6 +59,7 @@ namespace DiagramControls
 				return;
 			}
 
+			InitializeLegend();
 			InitializePiePieces();
 			ShowGeneralInfo();
 		}
@@ -79,12 +75,13 @@ namespace DiagramControls
 		{
 			var generalVol = Scopes.TotalSum;
 			var genAngle = 0.0;
+			int amount = 0;
 			for (int i = 0; i < Scopes.Count(); i++)
 			{
 				if (Scopes[i].Sum != 0)
 				{
 					var angle = Convert.ToDouble((Scopes[i].Sum * FullAngle) / generalVol);
-					var piePiece = new PiePiece(i, angle, UsersBrushes[i]);
+					var piePiece = new PiePiece(amount++, angle, UsersBrushes[i]);
 					piePiece.MouseIn += PiePiece_MouseIn;
 					piePiece.MouseOut += PiePiece_MouseOut;
 					piePiece.Rotate(genAngle);
@@ -117,36 +114,42 @@ namespace DiagramControls
 		private void PiePiece_MouseIn(PiePiece sender)
 		{
 			Panel.SetZIndex(sender, ElementToForegroundIndex);
-			int num = sender.Num;
-			var curScope = Scopes[num];
+			int ind = sender.Ind;
+			var curScope = Scopes[ind];
 			piePieceHeaderTextBlock.Text = $"{curScope.EnumMember}";
 
 			DiagramInfo.Clear();
-			DiagramInfo.Header = $"{Scopes[num].Sum:C2} ({curScope.Ratio: #0.##%})";
-			Scopes[num].OutputData((col1, col2) => DiagramInfo.Add(col1, col2));
+			DiagramInfo.Header = $"{Scopes[ind].Sum:C2} ({curScope.Ratio: #0.##%})";
+			Scopes[ind].OutputData((col1, col2) => DiagramInfo.Add(col1, col2));
 		}
 
 		private void InitializeLegend()
 		{
-			for (int i = 0; i < Scopes.EnumValues.Count(); i++)
+			legend.Children.Clear();
+
+			int amount = 0;
+			for (int i = 0; i < Scopes.Count(); i++)
 			{
-				var legendItem = new PieLegendItem(i, UsersBrushes[i], Scopes.EnumValues.ElementAt(i).Item);
-				legendItem.MouseOn += LegendItem_MouseOn;
-				legendItem.MouseOut += LegendItem_MouseOut;
-				legend.Children.Add(legendItem);
+				if (Scopes[i].Sum != 0)                      //Initialize LegendItems only for not empty Pies
+				{
+					var legendItem = new PieLegendItem(amount++, UsersBrushes[i], Scopes[i].EnumMember.Item);
+					legendItem.MouseOn += LegendItem_MouseOn;
+					legendItem.MouseOut += LegendItem_MouseOut;
+					legend.Children.Add(legendItem);
+				}
 			}
 		}
 
-		private void LegendItem_MouseOut(int num)
+		private void LegendItem_MouseOut(int ind)
 		{
-			if (num >= 0 && num < piePieces.Count)
-				piePieces[num].Unselect();
+			if (ind >= 0 && ind < Scopes.Count())
+				piePieces[ind].Unselect();
 		}
 
-		private void LegendItem_MouseOn(int num)
+		private void LegendItem_MouseOn(int ind)
 		{
-			if (num >= 0 && num < piePieces.Count)
-				piePieces[num].Select();
+			if (ind >= 0 && ind < piePieces.Count())
+				piePieces[ind].Select();
 		}
 	}
 }

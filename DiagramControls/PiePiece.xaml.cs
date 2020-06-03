@@ -43,7 +43,7 @@ namespace DiagramControls
 		public event PiePieceHandler MouseIn;
 		public event PiePieceHandler MouseOut;
 
-		public int Num { get; }
+		public int Ind { get; }
 		public Point Center { get; private set; } = new Point(0, 0);
 
 		private const double factor = Math.PI / 180;
@@ -58,7 +58,7 @@ namespace DiagramControls
 		public PiePiece(int i, double angle, SolidColorBrush brush)
 		{
 			InitializeComponent();
-			Num = i;
+			Ind = i;
 			DefaultBrush = brush;
 			Angle = angle;
 		}
