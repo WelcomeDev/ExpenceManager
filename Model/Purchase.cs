@@ -7,9 +7,11 @@ using System.Linq;
 
 namespace Model
 {
-	public partial class Purchase : EnumerableType<GoodType>
+	public partial class Purchase 
 	{
 		public DateTime Date { get; }
+
+		public List<GoodType> Types { get; }
 
 		public decimal Sum => Goods.Sum(x => x.Key.Price * x.Value);
 
@@ -22,7 +24,7 @@ namespace Model
 		/// </summary>
 		public Purchase()
 		{
-			types = new List<GoodType>();
+			Types = new List<GoodType>();
 			Date = DateTime.Now;
 			Goods = new Dictionary<Good, int>();
 		}
@@ -37,7 +39,7 @@ namespace Model
 				throw new ArgumentException($"Invalid date {date}");
 
 			Date = date;
-			types = new List<GoodType>();
+			Types = new List<GoodType>();
 			Goods = new Dictionary<Good, int>();
 		}
 
@@ -45,7 +47,7 @@ namespace Model
 		{
 			Date = purchaseEntity.Date;
 			Goods = ConvertToModelType(purchaseEntity.Goods);
-			types = Goods.Select(x => x.Key.Type).Distinct().ToList();
+			Types = Goods.Select(x => x.Key.Type).Distinct().ToList();
 		}
 
 		private Dictionary<Good, int> ConvertToModelType(List<PurchaseItemEntity> goods)
@@ -74,8 +76,8 @@ namespace Model
 				{
 					Goods.Add(good, item.Amount);
 
-					if (types.Contains(good.Type) == false)
-						types.Add(good.Type);
+					if (Types.Contains(good.Type) == false)
+						Types.Add(good.Type);
 				}
 			}
 		}

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Model.DataBase.GoodEntity">
+    <Position X="12.25" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAQAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>DataBase\GoodEntity.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Type" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Model.DataBase.GoodTypeEntity">
+    <Position X="12.25" Y="3.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataBase\GoodTypeEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.DataBase.PurchaseDB">
+    <Position X="0.75" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>gAIAAAAAAAAABAAAAAAAAYAAAAAAAAAhAAAAAGAAAAA=</HashCode>
+      <FileName>DataBase\PurchaseDB.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.DataBase.PurchaseDBContext">
+    <Position X="4.75" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAQAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataBase\PurchaseDBContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.DataBase.PurchaseEntity">
+    <Position X="4.75" Y="0.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAIAAAAAAAAAAAAAAAABAAAAAAAAACA=</HashCode>
+      <FileName>DataBase\PurchaseEntity.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Goods" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Model.DataBase.PurchaseItemEntity">
+    <Position X="8.5" Y="0.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>DataBase\PurchaseItemEntity.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Good" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
