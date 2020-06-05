@@ -38,8 +38,22 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="Model.DataBase.PurchaseDB">
+    <Position X="1.75" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>gAIAAAAAAAAABAAAAAAAAYAAAAAAAAAhAAAAAGAAAAA=</HashCode>
+      <FileName>DataBase\PurchaseDB.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.DataBase.PurchaseDBContext">
+    <Position X="5.5" Y="5.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAQAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataBase\PurchaseDBContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Enum Name="Model.GoodTypes">
-    <Position X="12" Y="5" Width="1.5" />
+    <Position X="12.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAIAAAAAAAAQAAAAAAAAAAAAAAgAACAA=</HashCode>
       <FileName>GoodTypes.cs</FileName>
